@@ -1,0 +1,41 @@
+{
+	"textures": [
+		{
+			"image": "neon.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1026,
+				"h": 638
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "neon bar.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1024,
+						"h": 636
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1024,
+						"h": 636
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1024,
+						"h": 636
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:bc0c01c7e2fb5bb8cbf9c2dcbb0331cc:e218bcfa73736063c141fb882a6ca57c:02d424e69f2b91cbcfe9ed87702deb37$"
+	}
+}
