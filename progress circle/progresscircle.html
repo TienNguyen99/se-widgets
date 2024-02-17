@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="progresscircle.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+    <figure>
+          <div class="circle">
+       <div class="chart-indicator">&#x1f6f5;</div>
+        <span class="circle_value">0%</span>
+      </div>
+    </figure>
+
+    </div>
+    <div>
+  <button onclick="updatebar(10)">Tăng</button>
+  <button onclick="updatebar(-10)">Giảm</button>
+</div>
+</body>
+<script src="progresscircle.js"></script>
+</html>
