@@ -1,0 +1,12 @@
+{
+    "goal_total": {
+        "type": "number",
+        "label": "Total",
+        "value": 100
+    },
+      "goal_amount": {
+        "type": "number",
+        "label": "Tips value (in dollars)",
+        "value": 0
+    }
+}
