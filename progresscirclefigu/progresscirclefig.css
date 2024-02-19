@@ -48,13 +48,47 @@
   font-family: "VT323", monospace;
   font-style: normal;
 }
+.follower_name{
+  top:50%;
+  left:50%;
+  position: absolute; 
+  transform: translate(-50%, -50%); 
+  font-size: 30px;
+  font-weight: 400;
+  color: #FF9494;
+  font-family: "VT323", monospace;
+  font-style: normal;
+  animation: follower_scroll 10s linear infinite;
+}
 
 .chart-indicator {
-  --size: min-content; 
+  width: 64px;
+  height: 64px;
+  overflow: hidden; 
   offset: path("M 100,0 a 100 100 0 1 1 -.1 0 z");
   offset-distance: var(--p);
-  font: 43pt serif;
   transform: rotateY(180deg) translateX(-6px);
-   content:url('https://tiennguyen99.github.io/se-widgets/assets/slime/slime.png');
+}
+.slime{
+    animation: move 1s steps(5) infinite;
+}
+
+@keyframes move{
+    from{
+        transform: translate3d(0px,0,0);
+    }
+    to{
+        transform: translate3d(-100%,0,0);
+    }
+}
+
+
+@keyframes follower_scroll{
+    0%{
+        transform: translateX(100%)
+    }
+    100%{
+        transform: translateX(-100%)
+    }
 }
 
