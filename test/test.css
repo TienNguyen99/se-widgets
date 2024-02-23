@@ -4,70 +4,14 @@
   stroke: #b0b4b8;
   stroke-width: 1em;
 }
-
-@-webkit-keyframes pulse {
-  0% {
-    box-shadow:0 0 8px {
-        {
-        backgroundColor
-      }
-    }
-
-    ,
-    inset 0 0 8px {
-        {
-        backgroundColor
-      }
-    }
-
-    ;
+  @-webkit-keyframes pulse {
+    0% { box-shadow:0 0 8px {{backgroundColor}}, inset 0 0 8px {{backgroundColor}}; }
+  50% { box-shadow:0 0 16px {{backgroundColor}}, inset 0 0 14px {{backgroundColor}}; }
+  100% { box-shadow:0 0 8px {{backgroundColor}}, inset 0 0 8px {{backgroundColor}}; }
   }
-
-  50% {
-    box-shadow:0 0 16px {
-        {
-        backgroundColor
-      }
-    }
-
-    ,
-    inset 0 0 14px {
-        {
-        backgroundColor
-      }
-    }
-
-    ;
-  }
-
-  100% {
-    box-shadow:0 0 8px {
-        {
-        backgroundColor
-      }
-    }
-
-    ,
-    inset 0 0 8px {
-        {
-        backgroundColor
-      }
-    }
-
-    ;
-  }
-}
-
 #svg #bar {
-  stroke: {
-      {
-      backgroundColor
-    }
-  }
-
-  ;
+  stroke: {{backgroundColor}};
 }
-
 #cont {
   display: block;
   height: 200px;
@@ -76,24 +20,9 @@
   /* box-shadow: 0 0 1em black; */
   border-radius: 100%;
   position: relative;
-
-  box-shadow: 0 0 8px {
-      {
-      backgroundColor
-    }
-  }
-
-  ,
-  inset 0 0 8px {
-      {
-      backgroundColor
-    }
-  }
-
-  ;
+  box-shadow: 0 0 8px {{backgroundColor}}, inset 0 0 8px {{backgroundColor}};
   -webkit-animation: pulse 2s linear 1s infinite;
 }
-
 #cont:after {
   position: absolute;
   display: block;
@@ -101,99 +30,93 @@
   width: 160px;
   left: 50%;
   top: 50%;
-  /* box-shadow: inset 0 0 1em black; */
-  /*content: attr(data-pct)"%"; */
-
   margin-top: -80px;
   margin-left: -80px;
   border-radius: 100%;
   line-height: 160px;
   font-size: 2em;
-
-  /* text-shadow: 0 0 0.5em black; */
-  box-shadow: 0 0 8px {
-      {
-      backgroundColor
-    }
-  }
-
-  ,
-  inset 0 0 8px {
-      {
-      backgroundColor
-    }
-  }
-
-  ;
+  box-shadow: 0 0 8px {{backgroundColor}}, inset 0 0 8px {{backgroundColor}};
   -webkit-animation: pulse 2s linear 1s infinite;
 }
-
-.slime_box {
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  width: 64px;
-  height: 64px;
-  overflow: hidden;
+.img_box{
+  top:50%;
+  left:50%;
+  position: absolute; 
+  transform: translate(-65%, -55%); 
+  width: 160px;
+  overflow:hidden;
+}
+#imgSrc{
+  display:none;
 }
 
-.slime {
-  animation: move 1s steps(5) infinite;
+
+@keyframes move{
+    from{
+        transform: translate3d(0px,0,0);
+    }
+    to{
+        transform: translate3d(-100%,0,0);
+    }
 }
 
-@keyframes move {
-  from {
-    transform: translate3d(0px, 0, 0);
-  }
-
-  to {
-    transform: translate3d(-100%, 0, 0);
-  }
+/* CSS beauty */
+html {  height: 100%;}
+body{ 
+font-family: 'BubbleGum', sans-serif;
+background-color: transparent; 
+height: 100%; 
+padding-top: 2em; 
+text-align: center;
 }
-
-/* Make things perty */
-html {
-  height: 100%;
-}
-
-body {
-  font-family: 'BubbleGum', sans-serif;
-  background-color: transparent;
-  height: 100%;
-  padding-top: 2em;
-  text-align: center;
-}
-
-h1,
-h2 {
-  margin: 0;
-  text-transform: uppercase;
-  text-shadow: 0 0 0.5em black;
-}
-
-h2 {
-  font-weight: 300
-}
+h1, h2{ margin: 0; text-transform: uppercase;text-shadow: 0 0 0.5em black;} 
+h2 { font-weight: 300}
 .goal_text {
-  /* border: 1px solid #666; */
   background: transparent;
-  color: black;
-  /* padding: 0.5em; */
-  /* box-shadow: none; */
-  /* outline: none !important; */
-  /* margin: 1em auto; */
+  color: {{fontColor}};
   text-align: center;
-  font-size: 30px;
+  font-size: 35px;
 }
 .percent_value {
-  /* border: 1px solid #666; */
   background: transparent;
-  color: black;
-  /* padding: 0.5em; */
+  color: {{fontColor}};
   box-shadow: none;
   outline: none !important;
   margin: 0.5em auto;
   text-align: center;
   font-size: 30px;
 }
+.box_event{
+  border-radius: 36px; 
+  border: 5px solid #FFBE98;
+  background: #FFBE98;
+  animation: lineIn 2s linear forwards;
+  overflow-x: hidden;
+  
+}
+@keyframes lineIn{
+  0%{
+    width:0%;
+  }
+  100%{
+    width:100%;
+  }
+}
+.box_event .event_text {
+
+  color: #FFF;
+  text-align: center;
+  font-size: 30px;
+  white-space: nowrap; /* Prevent text from breaking into multiple lines */
+  animation: lineIntext 10s infinite;
+  animation-timing-function: linear;
+}
+@keyframes lineIntext{
+	  0% {
+    transform: translateX(0%)
+  }
+  100% {
+    transform: translateX(-100%)
+  }
+}
+
