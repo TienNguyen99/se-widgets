@@ -1,0 +1,150 @@
+#svg circle {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear;
+  stroke: #b0b4b8;
+  stroke-width: 1em;
+}
+
+#svg #bar {
+  stroke: {{backgroundColor}};
+}
+#cont {
+  display: block;
+  height: 200px;
+  width: 200px;
+  margin: 1em auto;
+  border-radius: 100%;
+  position: relative;
+  
+  -webkit-animation: pulse 2s linear 1s infinite;
+}
+#cont:after {
+
+  content:'';
+   position: absolute;
+  display: block;
+  height: 160px;
+  width: 160px;
+  left: 50%;
+  top: 50%;
+  margin-top: -80px;
+  margin-left: -80px;
+  border-radius: 100%;
+  line-height: 160px;
+  -webkit-animation: pulse 2s linear 1s infinite;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    box-shadow: 0 0 8px {{backgroundColor}}, inset 0 0 8px {{backgroundColor}};
+  }
+  50% {
+    box-shadow: 0 0 16px {{backgroundColor}}, inset 0 0 14px {{backgroundColor}};
+  }
+  100% {
+    box-shadow: 0 0 8px {{backgroundColor}}, inset 0 0 8px {{backgroundColor}};
+  }
+}
+
+
+.img_box{
+  top:50%;
+  left:50%;
+  position: absolute; 
+  transform: translate(-60%, -55%); 
+  width: 160px;
+  overflow:hidden;
+}
+#imgSrc{
+  display:none;
+}
+
+/* CSS beauty */
+html {  height: 100%;}
+body{ 
+font-family: "Fredoka", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: bold;
+  text-transform: uppercase;
+background-color: transparent; 
+height: 100%; 
+/*padding-top: 2em; */
+text-align: center;
+}
+h1, h2{ margin: 0; text-transform: uppercase;text-shadow: 0 0 0.5em black;} 
+h2 { font-weight: 300}
+.goal_text {
+  background: transparent;
+  color: {{fontColor}};
+  text-align: center;
+  font-size: 25px;
+}
+.percent_value {
+  background: transparent;
+  color: {{fontColor}};
+  box-shadow: none;
+  outline: none !important;
+  
+  text-align: center;
+  font-size: 30px;
+}
+.box_event.animate-hide{
+  border-radius: 36px; 
+  border: 5px solid {{alertColor}};
+  background: {{alertColor}};
+  animation: lineOut 2s linear forwards;
+  overflow-x: hidden;
+  display: none; /* Initially show the box_event */
+}
+.box_event.animate{
+  border-radius: 36px; 
+  border: 5px solid {{alertColor}};
+  background: {{alertColor}};
+  animation: lineIn 2s linear forwards;
+  overflow-x: hidden;
+  display: none; /* Initially show the box_event */
+}
+
+@keyframes lineIn{
+  0%{
+    width:0%;
+  }
+  100%{
+    width:100%;
+  }
+}
+@keyframes lineOut{
+  0%{
+    width:100%;
+  }
+  100%{
+    width:0%;
+  }
+}
+.box_event .event_text {
+
+  color: {{fontColor}};
+  text-align: justify;
+  font-size: 30px;
+  white-space: nowrap; /* Prevent text from breaking into multiple lines */
+  animation: lineIntext 23s linear;
+  /*animation-timing-function: linear;*/
+}
+.wrapper {
+
+  width: 200px;
+  margin: 2em auto;
+  height: 30px; /* Set the initial height */
+   /* Hide the content that overflows the height */
+}
+
+
+@keyframes lineIntext {
+  0% {
+    transform: translateX(100%); /* Start from off-screen right */
+  }
+  100% {
+    transform: translateX(-300%); /* Move off-screen left */
+  }
+}

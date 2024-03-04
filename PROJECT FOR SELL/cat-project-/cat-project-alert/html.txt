@@ -1,0 +1,23 @@
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+
+     <div class ="wrapper"><div class ="box_event animate"><div class ="event_text">someone just followed</div> </div></div>         
+<div id="cont" >
+
+<svg id="svg" width="200" height="200" viewPort="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" style ="transform: rotate(-90deg)">
+  <circle r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+  <circle id="bar" r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0" stroke-linecap="round"></circle>
+</svg>
+  
+        <div class ="img_box">
+    <img id ="imgSrc" src="">
+      <canvas id="canvasSrc"></canvas>
+  </div>
+  </div>
+  <div class ="goal_text">{{textOrder}} Goal</div>
+  <div class ="percent_value"></div>
+
+
+
