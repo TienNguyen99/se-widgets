@@ -1,0 +1,7 @@
+    <defs>
+        <pattern id="conic" patternContentUnits="objectBoundingBox" width="100%" height="100%">
+            <image href="https://se-widgets.s3.ap-southeast-2.amazonaws.com/assets/hana/gradient-1200x1200.png" x="0" y="0" width="1" height="1" preserveAspectRatio="none"  />
+        </pattern>
+    </defs>
+
+816.814089933  R =130
