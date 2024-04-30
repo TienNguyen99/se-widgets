@@ -1,0 +1,13 @@
+
+.filled {
+    stroke-dasharray: 110; /* Total length of the path */
+    stroke-dashoffset: calc(100px(100px*90)/100); /* Initial state - fully dashed */
+    animation: anim 2s ease-out;
+    transition: stroke-dashoffset 1s linear;
+
+
+  }
+  @keyframes anim{
+    0%{ stroke-dashoffset: 100;}
+    100%{stroke-dashoffset: calc(100px-(100px*var(--percent))/100)}
+  } 
