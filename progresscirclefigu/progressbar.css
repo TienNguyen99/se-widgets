@@ -1,13 +1,86 @@
+/*@import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&display=swap');
 
-.filled {
-    stroke-dasharray: 110; /* Total length of the path */
-    stroke-dashoffset: calc(100px(100px*90)/100); /* Initial state - fully dashed */
-    animation: anim 2s ease-out;
-    transition: stroke-dashoffset 1s linear;
+.filled-bar{
+  	stroke-dashoffset: 0;
+    stroke:var(--color);
+	transition:  stroke-dashoffset 1s linear;
+  	clip-path: url("#heart");
+  stroke-width:0.2em;
+}
+.rim{
+	stroke-width:0.2em;
+  stroke:{{fontColor}};
+  z-index: 2;
+}
+#khung{
+   /* width: 100%;*/
+    /*height: 100%;*/
+
+    transform: translate(165px, 0px);
+}
+#cont {
+  height: 400px;  /* Increase the height */
+  width: 400px;   /* Increase the width */
+  position: relative;
+}
+#cont:after {
+  content: url('');
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  
+}
+
+.img_box{
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-33%, -35%);
+     z-index: 2;
+  
+}
+#imgSrc{
+  display:none;
+}
+
+/* CSS beauty */
+html {  height: 100%;}
+body{ 
+  font-family: "Changa One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+background-color: transparent; 
+
+text-align: center;
+}
+
+.goal_text,
+
+.percent_value {
+    background-image: linear-gradient(
+        to bottom right,
+      {{topColor}} , 
+  {{fontColor}}
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
+    text-align: center;
+   text-shadow: 0 0 5px {{fontColor}};
+}
+.goal_text {
+    margin-top: -270px;
+    font-size: 40px;
+}
+
+.percent_value {
+    font-size: 35px;
+}
 
 
-  }
-  @keyframes anim{
-    0%{ stroke-dashoffset: 100;}
-    100%{stroke-dashoffset: calc(100px-(100px*var(--percent))/100)}
-  } 
