@@ -5,10 +5,10 @@ let follower_name = "";
 let fieldData;
 let data;
 let recents;
+let textOrder = "";
 let animationSpeed = "";
 let frameCount = 0;
 let textLabel = "";
-let lastVal = -1;
 /*Canvas field */
 let canvas = document.getElementById("canvasSrc");
 let ctx = canvas.getContext("2d");
@@ -17,19 +17,16 @@ let CANVAS_HEIGHT = (canvas.height = 400);
 let spriteWidth = 128;
 let spriteHeight = 128;
 const image = new Image();
-image.src = "https://tiennguyen99.github.io/se-widgets/assets/auri/subgoal.png";
+image.src ="https://tiennguyen99.github.io/se-widgets/assets/cheney/128x128.png";
 //animation can play
-let totalFrame = 4;
+let totalFrame = 6;
 let currentFrame = 0;
 //pos
 let frameX = 0;
 let frameY = 0;
-//step each frame
-let idleStep = 0;
-let tranStep = 0;
 //min, max frame
 let minFrame = 0;
-let maxFrame = 3;
+let maxFrame = 5;
 //slowdown
 let frameDown = 0;
 // speed control
@@ -41,13 +38,25 @@ window.addEventListener("onWidgetLoad", function (obj) {
   data = obj.detail.session.data;
   fieldData = obj.detail.fieldData;
   goal_total = fieldData.goal_total;
+
+  textOrder = fieldData.textOrder;
   textLabel = fieldData.textLabel;
   animationSpeed = fieldData.animationSpeed;
   speed = animationSpeed;
-  //
-  goal_amount = data["subscriber-total"]["count"];
-
-  //
+  switch (textOrder) {
+    case "follower":
+      goal_amount = data["follower-total"]["count"];
+      break;
+    case "donation":
+      goal_amount = data["tip-goal"]["amount"];
+      break;
+    case "bit":
+      goal_amount = data["cheer-goal"]["amount"];
+      break;
+    case "sub":
+      goal_amount = data["subscriber-total"]["count"];
+      break;
+  }
   if (fieldData.transparent) {
     $("#red-fill").attr("fill", "transparent");
   }
@@ -65,15 +74,51 @@ window.addEventListener("onEventReceived", function (obj) {
   const event = obj.detail.event;
   // Listen to events based on user field settings
   switch (listener) {
+    case "tip-latest":
+      if (textOrder === "donation") {
+        goal_amount += event["amount"];
+        //All Function
+        currentFrame = 6;
+        setFrame(6, 39, animationSpeed);
+        stopAnimation();
+        animate();
+        renderHTML();
+      }
+      break;
+    case "follower-latest":
+      if (textOrder === "follower") {
+        goal_amount = goal_amount + 1;
+        //All Function
+        currentFrame = 6;
+        setFrame(6, 39, animationSpeed);
+        stopAnimation();
+        animate();
+        renderHTML();
+      }
+      break;
+    case "cheer-latest":
+      if (textOrder === "bit") {
+        goal_amount += event["amount"];
+        //All Function
+        currentFrame = 6;
+        setFrame(6, 39, animationSpeed);
+        stopAnimation();
+        animate();
+        renderHTML();
+      }
+      break;
     case "subscriber-latest":
-      if (event.bulkGifted) return;
-      goal_amount += 1;
-      //All Function
-      currentFrame = 4 + idleStep;
-      setFrame(4 + idleStep, 13 + idleStep, animationSpeed);
-      stopAnimation();
-      renderHTML();
-      animate();
+      if (textOrder === "sub") {
+        if (event.bulkGifted) return;
+        goal_amount += 1;
+
+        //All Function
+        currentFrame = 6;
+        setFrame(6, 39, animationSpeed);
+        stopAnimation();
+        animate();
+        renderHTML();
+      }
       break;
   }
 });
@@ -86,27 +131,12 @@ function animate() {
     frameX = currentFrame % totalFrame;
     frameY = Math.floor(currentFrame / totalFrame);
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    ctx.drawImage(
-      image,
-      frameX * spriteWidth,
-      frameY * spriteHeight,
-      spriteWidth,
-      spriteHeight,
-      0,
-      0,
-      spriteWidth,
-      spriteHeight
-    );
-    //Neu cham 20 40 60
-    if (
-      currentFrame === 13 + idleStep ||
-      currentFrame === 20 ||
-      currentFrame === 44 ||
-      currentFrame === 68 ||
-      currentFrame === 115
-    ) {
-      currentFrame = 0 + idleStep;
-      setFrame(0 + idleStep, 3 + idleStep, animationSpeed);
+    ctx.drawImage(image,frameX * spriteWidth,frameY * spriteHeight,spriteWidth,spriteHeight,0,0,spriteWidth,spriteHeight);
+
+    //Reset Animation to Idle
+    if (currentFrame === 39) {
+      currentFrame = 0;
+      setFrame(0, 5, animationSpeed);
     }
   }
 }
@@ -121,7 +151,6 @@ function setFrame(min, max, spd) {
   speed = spd;
   frameDown = 0;
 }
-//Render circle
 function renderHTML() {
   let val = (goal_amount / goal_total) * 100;
   let circle = document.querySelector("#svg #bar");
@@ -136,48 +165,13 @@ function renderHTML() {
     if (val > 100) {
       val = 100;
     }
+    //IF 100% here
 
-    switch (true) {
-      case val >= 25 && lastVal < 25:
-        idleStep = 24 * 1;
-        tranStep = 16 * 1;
-        currentFrame = 16;
-        setFrame(16, 20, animationSpeed);
-        break;
-      case val >= 50 && lastVal < 50:
-        idleStep = 24 * 2;
-        tranStep = 16 * 2;
-        currentFrame = 40;
-        setFrame(40, 44, animationSpeed);
-        break;
-      case val >= 75 && lastVal < 75:
-        idleStep = 24 * 3;
-        tranStep = 16 * 3;
-        currentFrame = 64;
-        setFrame(64, 68, animationSpeed);
-        break;
-      case val == 100 && lastVal < 100:
-        idleStep = 24 * 4;
-        tranStep = 16 * 5;
-        currentFrame = 88;
-        setFrame(88, 115, animationSpeed);
-        break;
-      default:
-        // Handle any other cases here
-        break;
-    }
-    // Update last processed value
-    lastVal = val;
-
-    //currentFrame = tranStep;
-    //setFrame(tranStep, 20, animationSpeed);
-    //debug
-    console.log(idleStep);
-    console.log(tranStep);
+    //
     let pct = ((100 - val) / 100) * c;
     circle.style.strokeDashoffset = pct + "px";
     document.querySelector(".percent_value").textContent =
-      goal_amount.toFixed(0) + `/{goal_total}`;
+    goal_amount.toFixed(0) + `/{goal_total}`;
     document.querySelector(".goal_text").textContent = textLabel;
   }
 }
