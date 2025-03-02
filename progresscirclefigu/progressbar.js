@@ -141,9 +141,13 @@ function animate() {
     //Reset Animation to Idle
         if (
       currentFrame === 7 ||
+      currentFrame === 14 ||
       currentFrame === 23 ||
-      currentFrame === 39 ||
+      currentFrame === 30||
+      currentFrame === 39||
+      currentFrame === 46||
       currentFrame === 55||
+      currentFrame === 62||
       currentFrame === 71
 
     ) {
@@ -208,7 +212,7 @@ function renderHTML() {
 
     //debug
     console.log(val);
-   
+    console.log(lastVal);
     //
     let pct = ((100 - val) / 100) * c;
     circle.style.strokeDashoffset = pct + "px";
