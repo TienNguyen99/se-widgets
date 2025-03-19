@@ -1,30 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="progressbar.css">
-</head>
-<body>
-  
 <div id="cont">
-  <svg id="svg" width="100%" height="100%" viewBox="0 0 400 400"  style="transform: rotate(-90deg)" >
+
+    <svg id="svg" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
         <defs>
-<linearGradient id="conic" x1="0%" y1="0%" >
-    <stop offset="0%" stop-color="{{gradient1}}"/>
-	<stop offset="100%" stop-color="{{gradient2}}"/>
-</linearGradient>
-    </defs>
-    s
-  </svg>
-  <div class="img_box">
-    <img id="imgSrc" src="" />
-    <canvas id="canvasSrc"></canvas>
-  </div>
+            <linearGradient id="conic" x1="0%" y1="0%">
+                <stop offset="0%" stop-color="{{gradient1}}" />
+                <stop offset="100%" stop-color="{{gradient2}}" />
+            </linearGradient>
+        </defs>
+
+        <path id="bar" class="filled-bar" stroke-dasharray="90" stroke-dashoffset="0" style="--color:url(#conic)"
+            d="M48 18h160M48 19h160M46 20h164M46 21h164M46 22h164M46 23h164M46 24h164M46 25h164M48 26h160M48 27h160 " />
+           <clipPath id="heart">
+            <path fill="none"
+                d="" />
+        </clipPath>
+      <image id="khung"  xlink:href=""></image>
+
+    </svg>
+
+    <div class="img_box">
+        <img id="imgSrc" src="" />
+        <canvas id="canvasSrc"></canvas>
+    </div>
 </div>
 <div class="goal_text"></div>
 <div class="percent_value"></div>
-</body>
-<script src="progressbar.js"></script>
-</html>
