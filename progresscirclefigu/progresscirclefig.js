@@ -16,8 +16,6 @@ let spriteWidth = 200;
 let spriteHeight = 200;
 // Bunny Sprite
 const image = new Image();
-image.src =
-  "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/bunny.png";
 // Eye
 const eyeDraw = new Image();
 // Head
@@ -39,7 +37,8 @@ let frameDown = 0;
 let speed = 4;
 //up = dec down = inc
 let animationId;
-
+let danceSpam = [];
+const now = Date.now();
 //
 window.addEventListener("onWidgetLoad", function (obj) {
   recents = obj.detail.recents;
@@ -49,8 +48,17 @@ window.addEventListener("onWidgetLoad", function (obj) {
   eye = fieldData.eye;
   head = fieldData.head;
   neck = fieldData.neck;
+  skin = fieldData.skin;
   speed = animationSpeed;
-
+  switch (skin) {
+    case "White":
+    case "BlackWhite":
+    case "Mocha":
+    case "Pink":
+      image.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/{{skin}}.png";
+      break;
+  }
   switch (eye) {
     case "none":
       eyeDraw.src = "";
@@ -95,37 +103,84 @@ window.addEventListener("onEventReceived", function (obj) {
   }
   const listener = obj.detail.listener;
   const event = obj.detail.event;
+
   // Listen to events based on user field settings
   switch (listener) {
     case "tip-latest":
-      currentFrame = 180;
-      setFrame(180, 198, animationSpeed);
+      currentFrame = 250;
+      setFrame(250, 267, animationSpeed);
       stopAnimation();
       animate();
       break;
     case "follower-latest":
-      currentFrame = 130;
-      setFrame(130, 139, animationSpeed);
+      currentFrame = 170;
+      setFrame(170, 187, animationSpeed);
       stopAnimation();
       animate();
       break;
     case "cheer-latest":
-      currentFrame = 200;
-      setFrame(200, 217, animationSpeed);
+      currentFrame = 270;
+      setFrame(270, 287, animationSpeed);
       stopAnimation();
       animate();
       break;
+    case "raid-latest":
+      currentFrame = 290;
+      setFrame(290, 325, animationSpeed);
+      stopAnimation();
+      animate();
     case "subscriber-latest":
       if (event.bulkGifted) return;
-      currentFrame = 140;
-      setFrame(140, 153, animationSpeed);
+      currentFrame = 190;
+      setFrame(190, 214, animationSpeed);
       stopAnimation();
       animate();
+      if (event.gifted) {
+        currentFrame = 220;
+        setFrame(220, 241, animationSpeed);
+        stopAnimation();
+        animate();
+      }
+
       break;
     case "message":
-      if (event.data.text.includes("pet")) {
-        currentFrame = 49;
-        setFrame(49, 55, animationSpeed);
+      if (event.data.text.includes("!sleep")) {
+        currentFrame = 20;
+        setFrame(20, 48, animationSpeed);
+        stopAnimation();
+        animate();
+      }
+      if (event.data.text.includes("!angry")) {
+        currentFrame = 50;
+        setFrame(50, 74, animationSpeed);
+        stopAnimation();
+        animate();
+      }
+      if (event.data.text.includes("!pet")) {
+        currentFrame = 80;
+        setFrame(80, 101, animationSpeed);
+        stopAnimation();
+        animate();
+      }
+      if (event.data.text.includes("!feed")) {
+        currentFrame = 110;
+        setFrame(110, 132, animationSpeed);
+        stopAnimation();
+        animate();
+      }
+
+      if (event.data.text.includes("!dance")) {
+        danceSpam = danceSpam.filter((t) => now - t < 5000);
+        danceSpam.push(now);
+
+        if (danceSpam.length > 3) {
+          currentFrame = 50; // angry
+          setFrame(50, 74, animationSpeed);
+        } else {
+          currentFrame = 140; // dance
+          setFrame(140, 167, animationSpeed);
+        }
+
         stopAnimation();
         animate();
       }
@@ -192,11 +247,17 @@ function animate() {
 
     //Stop
     if (
-      currentFrame === 123 ||
-      currentFrame === 198 ||
-      currentFrame === 139 ||
-      currentFrame === 217 ||
-      currentFrame === 153
+      currentFrame === 48 ||
+      currentFrame === 74 ||
+      currentFrame === 101 ||
+      currentFrame === 132 ||
+      currentFrame === 167 ||
+      currentFrame === 187 ||
+      currentFrame === 214 ||
+      currentFrame === 241 ||
+      currentFrame === 267 ||
+      currentFrame === 287 ||
+      currentFrame === 325
     ) {
       currentFrame = 0;
       setFrame(0, 15, animationSpeed);
