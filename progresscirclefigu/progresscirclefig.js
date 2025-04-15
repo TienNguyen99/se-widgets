@@ -22,6 +22,10 @@ const eyeDraw = new Image();
 const headDraw = new Image();
 // Neck
 const neckDraw = new Image();
+// Nose
+const noseDraw = new Image();
+// Wings
+const wingsDraw = new Image();
 //animation can play
 let totalFrame = 10;
 let currentFrame = 0;
@@ -38,7 +42,7 @@ let speed = 4;
 //up = dec down = inc
 let animationId;
 let danceSpam = [];
-const now = Date.now();
+
 //
 window.addEventListener("onWidgetLoad", function (obj) {
   recents = obj.detail.recents;
@@ -49,6 +53,8 @@ window.addEventListener("onWidgetLoad", function (obj) {
   head = fieldData.head;
   neck = fieldData.neck;
   skin = fieldData.skin;
+  nose = fieldData.nose;
+  wings = fieldData.wings;
   speed = animationSpeed;
   switch (skin) {
     case "White":
@@ -64,8 +70,9 @@ window.addEventListener("onWidgetLoad", function (obj) {
       eyeDraw.src = "";
       break;
     case "Glasses":
-    case "Glasses2":
-    case "Glasses3":
+    case "Catmask":
+    case "Heartglasses":
+    case "Eyepatch":
       eyeDraw.src =
         "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Eyes/{{eye}}.png";
       break;
@@ -91,7 +98,28 @@ window.addEventListener("onWidgetLoad", function (obj) {
         "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/{{neck}}.png";
       break;
   }
-
+  switch (nose) {
+    case "none":
+      noseDraw.src = "";
+      break;
+    case "Bandage":
+    case "Clownnose":
+    case "Moustacles":
+      noseDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Nose/{{nose}}.png";
+      break;
+  }
+  switch (wings) {
+    case "none":
+      wingsDraw.src = "";
+      break;
+    case "Angelwing":
+    case "Demonwing":
+    case "Wings3":
+      wingsDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Wings/{{wings}}.png";
+      break;
+  }
   animate();
 });
 window.addEventListener("onEventReceived", function (obj) {
@@ -129,6 +157,7 @@ window.addEventListener("onEventReceived", function (obj) {
       setFrame(290, 325, animationSpeed);
       stopAnimation();
       animate();
+      break;
     case "subscriber-latest":
       if (event.bulkGifted) return;
       currentFrame = 190;
@@ -170,6 +199,7 @@ window.addEventListener("onEventReceived", function (obj) {
       }
 
       if (event.data.text.includes("!dance")) {
+        const now = Date.now();
         danceSpam = danceSpam.filter((t) => now - t < 5000);
         danceSpam.push(now);
 
@@ -208,6 +238,18 @@ function animate() {
       spriteWidth,
       spriteHeight
     );
+    //Nose
+    ctx.drawImage(
+      noseDraw,
+      frameX * spriteWidth,
+      frameY * spriteHeight,
+      spriteWidth,
+      spriteHeight,
+      0,
+      0,
+      spriteWidth,
+      spriteHeight
+    );
     //Eye
     ctx.drawImage(
       eyeDraw,
@@ -235,6 +277,19 @@ function animate() {
     //Neck
     ctx.drawImage(
       neckDraw,
+      frameX * spriteWidth,
+      frameY * spriteHeight,
+      spriteWidth,
+      spriteHeight,
+      0,
+      0,
+      spriteWidth,
+      spriteHeight
+    );
+
+    //Wings
+    ctx.drawImage(
+      wingsDraw,
       frameX * spriteWidth,
       frameY * spriteHeight,
       spriteWidth,
