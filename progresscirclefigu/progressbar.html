@@ -1,22 +1,162 @@
-<div id="cont">
+<!DOCTYPE html>
+<html lang="en">
 
-    <svg id="svg" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
-        <defs>
-            <mask id="fish-mask" maskUnits="userSpaceOnUse">
-                <image id="fish" xlink:href="https://tiennguyen99.github.io/se-widgets/assets/heart-bar/FIlled.png" />
+<head>
+    <meta charset="UTF-8">
+    <title>Reactive Pet Mockup</title>
+    <style>
+        body {
+            background: #fceee2;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            image-rendering: pixelated;
+        }
 
-            </mask>
-        </defs>
-        <image id="base" xlink:href="https://tiennguyen99.github.io/se-widgets/assets/heart-bar/base.png"></image>
-        <path id="bar" class="filled-bar" stroke-dasharray="256" stroke-dashoffset="0" mask="url(#fish-mask)"
-            d="M74 28h256M74 29h256M74 30h256M74 31h256M74 32h256M74 33h256M74 34h256M74 35h256M74 36h256M74 37h256M74 38h256M74 39h256M74 40h256M74 41h256M74 42h256M74 43h256M74 44h256M74 45h256M74 46h256M74 47h256M74 48h256M74 49h256M74 50h256M74 51h256M74 52h256M74 53h256M74 54h256M74 55h256M74 56h256M74 57h256M74 58h256M74 59h256M74 60h256M74 61h256M74 62h256M74 63h256M74 64h256M74 65h256M74 66h256M74 67h256" />
-        <image id="khung" xlink:href="https://tiennguyen99.github.io/se-widgets/assets/heart-bar/outline.png"></image>
-    </svg>
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: #fff3eb;
+            border: 4px solid #b88f7b;
+            border-radius: 10px;
+        }
 
-    <div class="img_box">
-        <img id="imgSrc" src="" />
-        <canvas id="canvasSrc"></canvas>
+        h1 {
+            text-align: center;
+            color: #a55c4a;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .panel {
+            background: #fff;
+            border: 2px solid #d9b7a8;
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .panel h2 {
+            margin: 0 0 10px;
+            font-size: 16px;
+            background: #f6d5c0;
+            padding: 4px;
+            border: 1px solid #c48c74;
+            border-radius: 4px;
+        }
+
+        .icons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            background-color: #ddd;
+            border: 2px solid #aaa;
+            cursor: pointer;
+        }
+
+        .icon.selected {
+            border-color: red;
+        }
+
+        .preview {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .preview img {
+            width: 100px;
+            height: auto;
+        }
+
+        pre {
+            background: #eee;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Reactive Pet</h1>
+
+        <div class="grid">
+            <div class="panel">
+                <h2>!SLEEP</h2>
+                <div class="icons" id="face-options">
+                    <div class="icon" data-face="sleep"></div>
+                    <div class="icon" data-face="happy"></div>
+                    <div class="icon" data-face="angry"></div>
+                    <div class="icon" data-face="sad"></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>ACCESSORIES</h2>
+                <div class="icons" id="accessory-options">
+                    <div class="icon" data-accessory="glasses"></div>
+                    <div class="icon" data-accessory="hat"></div>
+                    <div class="icon" data-accessory="ribbon"></div>
+                    <div class="icon" data-accessory="scarf"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="preview">
+            <p>Preview:</p>
+            <img id="pet-image" src="https://via.placeholder.com/100x100?text=Pet" alt="Pet" />
+        </div>
+
+        <div class="preview">
+            <p>Generated JSON:</p>
+            <pre id="json-output">{}</pre>
+        </div>
     </div>
-</div>
-<div class="goal_text"></div>
-<div class="percent_value"></div>
+
+    <script>
+        let selectedFace = null;
+        let selectedAccessory = null;
+
+        document.querySelectorAll('#face-options .icon').forEach(icon => {
+            icon.addEventListener('click', () => {
+                document.querySelectorAll('#face-options .icon').forEach(i => i.classList.remove('selected'));
+                icon.classList.add('selected');
+                selectedFace = icon.dataset.face;
+                updateJSON();
+            });
+        });
+
+        document.querySelectorAll('#accessory-options .icon').forEach(icon => {
+            icon.addEventListener('click', () => {
+                document.querySelectorAll('#accessory-options .icon').forEach(i => i.classList.remove('selected'));
+                icon.classList.add('selected');
+                selectedAccessory = icon.dataset.accessory;
+                updateJSON();
+            });
+        });
+
+        function updateJSON() {
+            const data = {
+                face: selectedFace || null,
+                accessory: selectedAccessory || null
+            };
+            document.getElementById('json-output').textContent = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+
+</html>

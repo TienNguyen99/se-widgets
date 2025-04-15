@@ -1,51 +1,216 @@
-    let fieldData = {};
-    let cur = { follower: 0, subscriber: 0, tip: 0 };
+//Global state object
+let fieldData;
+let data;
+let recents;
+let animationSpeed = "";
+//
+let eye = "";
+let head = "";
+let neck = "";
+/*Canvas field */
+let canvas = document.getElementById("canvasSrc");
+let ctx = canvas.getContext("2d");
+let CANVAS_WIDTH = (canvas.width = 400);
+let CANVAS_HEIGHT = (canvas.height = 400);
+let spriteWidth = 200;
+let spriteHeight = 200;
+// Bunny Sprite
+const image = new Image();
+image.src =
+  "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/bunny.png";
+// Eye
+const eyeDraw = new Image();
+// Head
+const headDraw = new Image();
+// Neck
+const neckDraw = new Image();
+//animation can play
+let totalFrame = 10;
+let currentFrame = 0;
+//pos
+let frameX = 0;
+let frameY = 0;
+//min, max frame
+let minFrame = 0;
+let maxFrame = 15;
+//slowdown
+let frameDown = 0;
+// speed control
+let speed = 4;
+//up = dec down = inc
+let animationId;
 
-    window.addEventListener('onEventReceived', obj => {
-        if(!obj.detail.event) return;
-        let event = obj.detail.listener.split('-')[0];
-        let data = obj.detail.event;
-        if(data.bulkGifted) return;
-        handleIncrease(event, data.gifted || event == 'follower' || (event == 'subscriber' && !data.isCommunityGift) ? 1 : data.amount);
-    });
+//
+window.addEventListener("onWidgetLoad", function (obj) {
+  recents = obj.detail.recents;
+  data = obj.detail.session.data;
+  fieldData = obj.detail.fieldData;
+  animationSpeed = fieldData.animationSpeed;
+  eye = fieldData.eye;
+  head = fieldData.head;
+  neck = fieldData.neck;
+  speed = animationSpeed;
 
-    window.addEventListener('onWidgetLoad', obj => {
-        let data = obj.detail.session.data;
-        fieldData = obj.detail.fieldData;
+  switch (eye) {
+    case "none":
+      eyeDraw.src = "";
+      break;
+    case "Glasses":
+    case "Glasses2":
+    case "Glasses3":
+      eyeDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Eyes/{{eye}}.png";
+      break;
+  }
+  switch (head) {
+    case "none":
+      headDraw.src = "";
+      break;
+    case "Hat":
+    case "Ribbon":
+    case "Hat3":
+      headDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head/{{head}}.png";
+      break;
+  }
+  switch (neck) {
+    case "none":
+      neckDraw.src = "";
+      break;
+    case "Bow":
+    case "Scalf":
+      neckDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/{{neck}}.png";
+      break;
+  }
 
-        cur.follower = data['follower-goal'].amount;
-        cur.subscriber = data['subscriber-goal'].amount;
-        cur.tip = data['tip-goal'].amount;
+  animate();
+});
+window.addEventListener("onEventReceived", function (obj) {
+  if (!obj.detail.event) {
+    return;
+  }
+  if (typeof obj.detail.event.itemId !== "undefined") {
+    obj.detail.listener = "redemption-latest";
+  }
+  const listener = obj.detail.listener;
+  const event = obj.detail.event;
+  // Listen to events based on user field settings
+  switch (listener) {
+    case "tip-latest":
+      currentFrame = 180;
+      setFrame(180, 198, animationSpeed);
+      stopAnimation();
+      animate();
+      break;
+    case "follower-latest":
+      currentFrame = 130;
+      setFrame(130, 139, animationSpeed);
+      stopAnimation();
+      animate();
+      break;
+    case "cheer-latest":
+      currentFrame = 200;
+      setFrame(200, 217, animationSpeed);
+      stopAnimation();
+      animate();
+      break;
+    case "subscriber-latest":
+      if (event.bulkGifted) return;
+      currentFrame = 140;
+      setFrame(140, 153, animationSpeed);
+      stopAnimation();
+      animate();
+      break;
+    case "message":
+      if (event.data.text.includes("pet")) {
+        currentFrame = 49;
+        setFrame(49, 55, animationSpeed);
+        stopAnimation();
+        animate();
+      }
+      break;
+  }
+});
+//Function
+function animate() {
+  animationId = requestAnimationFrame(animate);
+  frameDown++;
+  if (frameDown % speed === 0) {
+    currentFrame = currentFrame < maxFrame ? currentFrame + 1 : minFrame;
+    frameX = currentFrame % totalFrame;
+    frameY = Math.floor(currentFrame / totalFrame);
+    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    //Bunny
+    ctx.drawImage(
+      image,
+      frameX * spriteWidth,
+      frameY * spriteHeight,
+      spriteWidth,
+      spriteHeight,
+      0,
+      0,
+      spriteWidth,
+      spriteHeight
+    );
+    //Eye
+    ctx.drawImage(
+      eyeDraw,
+      frameX * spriteWidth,
+      frameY * spriteHeight,
+      spriteWidth,
+      spriteHeight,
+      0,
+      0,
+      spriteWidth,
+      spriteHeight
+    );
+    //Head
+    ctx.drawImage(
+      headDraw,
+      frameX * spriteWidth,
+      frameY * spriteHeight,
+      spriteWidth,
+      spriteHeight,
+      0,
+      0,
+      spriteWidth,
+      spriteHeight
+    );
+    //Neck
+    ctx.drawImage(
+      neckDraw,
+      frameX * spriteWidth,
+      frameY * spriteHeight,
+      spriteWidth,
+      spriteHeight,
+      0,
+      0,
+      spriteWidth,
+      spriteHeight
+    );
 
-        $('img').css('left', `${(window.innerWidth - $('img')[0].scrollWidth) / 2}px`);
-
-        handleIncrease('follower', 0)
-    });
-
-    const handleIncrease = (event, amount) => {
-        switch(event) {
-            case 'follower':
-                $('#filled-bar').css('stroke', fieldData.followerColor);
-                $('#count').css('color', fieldData.followerColor);
-                $('#box').css('left', '32px');
-                break;
-            case 'subscriber':
-                $('#filled-bar').css('stroke', fieldData.subscriberColor);
-                $('#count').css('color', fieldData.subscriberColor);
-                $('#box').css('left', '95px');
-                break;
-            case 'tip':
-                $('#filled-bar').css('stroke', fieldData.tipColor);
-                $('#count').css('color', fieldData.tipColor);
-                $('#box').css('left', '159px');
-                break;
-            default: return;
-        }
-
-        cur[event] += amount;
-        let percent = Math.min(100, Math.round(100 * cur[event] / fieldData[`${event}Goal`]));
-        if(fieldData.displayType == 'count') $('#count').text(event == 'tip' ? `$${(cur[event] * 100 % 100 == 0 ? cur[event].toFixed(0) : cur[event].toFixed(2))}/$${(fieldData[`${event}Goal`] * 100 % 100 == 0 ? fieldData[`${event}Goal`].toFixed(0) : fieldData[`${event}Goal`].toFixed(2))}` : `${cur[event]}/${parseInt(fieldData[`${event}Goal`])}`);
-        else $('#count').text(`${percent == 100 && cur[event] < fieldData[`${event}Goal`] ? 99 : percent}%`);
-        $('#filled-bar').css('transform', `rotate(${1.8 * percent - 180}deg)`);
-        $('#fill-container').css('width', percent < 5 ? '50px' : '235px');
+    //Stop
+    if (
+      currentFrame === 123 ||
+      currentFrame === 198 ||
+      currentFrame === 139 ||
+      currentFrame === 217 ||
+      currentFrame === 153
+    ) {
+      currentFrame = 0;
+      setFrame(0, 15, animationSpeed);
     }
+  }
+}
+
+function stopAnimation() {
+  cancelAnimationFrame(animationId);
+}
+//Set range of action
+function setFrame(min, max, spd) {
+  minFrame = min;
+  maxFrame = max;
+  speed = spd;
+  frameDown = 0;
+}
