@@ -12,8 +12,8 @@ let canvas = document.getElementById("canvasSrc");
 let ctx = canvas.getContext("2d");
 let CANVAS_WIDTH = (canvas.width = 400);
 let CANVAS_HEIGHT = (canvas.height = 400);
-let spriteWidth = 200;
-let spriteHeight = 200;
+let spriteWidth = 400;
+let spriteHeight = 400;
 // Bunny Sprite
 const image = new Image();
 // Eye
@@ -54,7 +54,7 @@ window.addEventListener("onWidgetLoad", function (obj) {
   neck = fieldData.neck;
   skin = fieldData.skin;
   nose = fieldData.nose;
-  wings = fieldData.wings;
+ wings = fieldData.wings;
   speed = animationSpeed;
   switch (skin) {
     case "White":
@@ -62,7 +62,7 @@ window.addEventListener("onWidgetLoad", function (obj) {
     case "Mocha":
     case "Pink":
       image.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/{{skin}}.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Bunny/{{skin}}.png";
       break;
   }
   switch (eye) {
@@ -98,18 +98,18 @@ window.addEventListener("onWidgetLoad", function (obj) {
         "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/{{neck}}.png";
       break;
   }
-  switch (nose) {
+    switch (nose) {
     case "none":
       noseDraw.src = "";
       break;
     case "Bandage":
     case "Clownnose":
     case "Moustacles":
-      noseDraw.src =
+    noseDraw.src =
         "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Nose/{{nose}}.png";
       break;
-  }
-  switch (wings) {
+    }
+    switch (wings) {
     case "none":
       wingsDraw.src = "";
       break;
@@ -119,7 +119,7 @@ window.addEventListener("onWidgetLoad", function (obj) {
       wingsDraw.src =
         "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Wings/{{wings}}.png";
       break;
-  }
+      }
   animate();
 });
 window.addEventListener("onEventReceived", function (obj) {
@@ -226,9 +226,34 @@ function animate() {
     frameX = currentFrame % totalFrame;
     frameY = Math.floor(currentFrame / totalFrame);
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            //Wings
+    ctx.drawImage(
+      wingsDraw,
+      frameX * spriteWidth,
+      frameY * spriteHeight,
+      spriteWidth,
+      spriteHeight,
+      0,
+      0,
+      spriteWidth,
+      spriteHeight
+    );
     //Bunny
     ctx.drawImage(
       image,
+      frameX * spriteWidth,
+      frameY * spriteHeight,
+      spriteWidth,
+      spriteHeight,
+      0,
+      0,
+      spriteWidth,
+      spriteHeight
+    );
+
+        //Neck
+    ctx.drawImage(
+      neckDraw,
       frameX * spriteWidth,
       frameY * spriteHeight,
       spriteWidth,
@@ -251,7 +276,7 @@ function animate() {
       spriteWidth,
       spriteHeight
     );
-    //Nose
+                //Nose
     ctx.drawImage(
       noseDraw,
       frameX * spriteWidth,
@@ -263,7 +288,7 @@ function animate() {
       spriteWidth,
       spriteHeight
     );
-    //Head
+            //Head 1
     ctx.drawImage(
       headDraw,
       frameX * spriteWidth,
@@ -275,31 +300,11 @@ function animate() {
       spriteWidth,
       spriteHeight
     );
-    //Neck
-    ctx.drawImage(
-      neckDraw,
-      frameX * spriteWidth,
-      frameY * spriteHeight,
-      spriteWidth,
-      spriteHeight,
-      0,
-      0,
-      spriteWidth,
-      spriteHeight
-    );
 
-    //Wings
-    ctx.drawImage(
-      wingsDraw,
-      frameX * spriteWidth,
-      frameY * spriteHeight,
-      spriteWidth,
-      spriteHeight,
-      0,
-      0,
-      spriteWidth,
-      spriteHeight
-    );
+
+
+
+
 
     //Stop
     if (
