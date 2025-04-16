@@ -18,8 +18,10 @@ let spriteHeight = 400;
 const image = new Image();
 // Eye
 const eyeDraw = new Image();
-// Head
-const headDraw = new Image();
+// Head 1
+const head1Draw = new Image();
+// Head 2
+const head2Draw = new Image();
 // Neck
 const neckDraw = new Image();
 // Nose
@@ -50,11 +52,12 @@ window.addEventListener("onWidgetLoad", function (obj) {
   fieldData = obj.detail.fieldData;
   animationSpeed = fieldData.animationSpeed;
   eye = fieldData.eye;
-  head = fieldData.head;
+  head1 = fieldData.head1;
+  head2 = fieldData.head2;
   neck = fieldData.neck;
   skin = fieldData.skin;
   nose = fieldData.nose;
- wings = fieldData.wings;
+  wings = fieldData.wings;
   speed = animationSpeed;
   switch (skin) {
     case "White":
@@ -69,25 +72,39 @@ window.addEventListener("onWidgetLoad", function (obj) {
     case "none":
       eyeDraw.src = "";
       break;
-    case "Glasses":
     case "Catmask":
-    case "Heartglasses":
     case "Eyepatch":
+    case "Glasses":
+    case "Heartglasses":
+    case "Monocle":
+    case "Sunglasses":
       eyeDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Eyes/{{eye}}.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Eyes/Catmask.png";
       break;
   }
-  switch (head) {
+  switch (head1) {
     case "none":
-      headDraw.src = "";
+      head1Draw.src = "";
       break;
     case "Hat":
     case "Ribbon":
     case "Hat3":
-      headDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head/{{head}}.png";
+      head1Draw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head1/Cap.png";
       break;
   }
+  switch (head2) {
+    case "none":
+      head2Draw.src = "";
+      break;
+    case "Headband":
+    case "Headband2":
+    case "Headband3":
+      head2Draw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head2/Antlers.png";
+      break;
+  }
+
   switch (neck) {
     case "none":
       neckDraw.src = "";
@@ -95,21 +112,21 @@ window.addEventListener("onWidgetLoad", function (obj) {
     case "Bow":
     case "Scalf":
       neckDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/{{neck}}.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/Bow.png";
       break;
   }
-    switch (nose) {
+  switch (nose) {
     case "none":
       noseDraw.src = "";
       break;
     case "Bandage":
     case "Clownnose":
     case "Moustacles":
-    noseDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Nose/{{nose}}.png";
+      noseDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Nose/Bandage.png";
       break;
-    }
-    switch (wings) {
+  }
+  switch (wings) {
     case "none":
       wingsDraw.src = "";
       break;
@@ -117,9 +134,9 @@ window.addEventListener("onWidgetLoad", function (obj) {
     case "Demonwing":
     case "Wings3":
       wingsDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Wings/{{wings}}.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Wings/Angelwing.png";
       break;
-      }
+  }
   animate();
 });
 window.addEventListener("onEventReceived", function (obj) {
@@ -226,85 +243,37 @@ function animate() {
     frameX = currentFrame % totalFrame;
     frameY = Math.floor(currentFrame / totalFrame);
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-            //Wings
-    ctx.drawImage(
-      wingsDraw,
-      frameX * spriteWidth,
-      frameY * spriteHeight,
-      spriteWidth,
-      spriteHeight,
-      0,
-      0,
-      spriteWidth,
-      spriteHeight
-    );
+    //Wings
+    if(wingsDraw){
+    ctx.drawImage(wingsDraw,frameX * spriteWidth,frameY * spriteHeight,spriteWidth,spriteHeight,0,0,spriteWidth,spriteHeight);  
+    }
     //Bunny
-    ctx.drawImage(
-      image,
-      frameX * spriteWidth,
-      frameY * spriteHeight,
-      spriteWidth,
-      spriteHeight,
-      0,
-      0,
-      spriteWidth,
-      spriteHeight
-    );
-
-        //Neck
-    ctx.drawImage(
-      neckDraw,
-      frameX * spriteWidth,
-      frameY * spriteHeight,
-      spriteWidth,
-      spriteHeight,
-      0,
-      0,
-      spriteWidth,
-      spriteHeight
-    );
-
-    //Eye
-    ctx.drawImage(
-      eyeDraw,
-      frameX * spriteWidth,
-      frameY * spriteHeight,
-      spriteWidth,
-      spriteHeight,
-      0,
-      0,
-      spriteWidth,
-      spriteHeight
-    );
-                //Nose
-    ctx.drawImage(
-      noseDraw,
-      frameX * spriteWidth,
-      frameY * spriteHeight,
-      spriteWidth,
-      spriteHeight,
-      0,
-      0,
-      spriteWidth,
-      spriteHeight
-    );
-            //Head 1
-    ctx.drawImage(
-      headDraw,
-      frameX * spriteWidth,
-      frameY * spriteHeight,
-      spriteWidth,
-      spriteHeight,
-      0,
-      0,
-      spriteWidth,
-      spriteHeight
-    );
-
-
-
-
-
+    if(image){
+    ctx.drawImage(image,frameX * spriteWidth,frameY * spriteHeight,spriteWidth,spriteHeight,0,0,spriteWidth,spriteHeight);  
+    }
+    //Neck
+    if(neckDraw){
+    ctx.drawImage(neckDraw,frameX * spriteWidth,frameY * spriteHeight,spriteWidth,spriteHeight,0,0,spriteWidth,spriteHeight);  
+    }
+        //Eye
+    if(eyeDraw){
+    ctx.drawImage(eyeDraw,frameX * spriteWidth,frameY * spriteHeight,spriteWidth,spriteHeight,0,0,spriteWidth,spriteHeight);  
+    }
+        //Nose
+    if(noseDraw){
+    ctx.drawImage(noseDraw,frameX * spriteWidth,frameY * spriteHeight,spriteWidth,spriteHeight,0,0,spriteWidth,spriteHeight);  
+    }
+        //Head 2
+        if(head2Draw){
+        ctx.drawImage(head2Draw,frameX * spriteWidth,frameY * spriteHeight,spriteWidth,spriteHeight,0,0,spriteWidth,spriteHeight);  
+        }
+  
+    //Head 1
+    if(head2Draw){
+        ctx.drawImage(head1Draw,frameX * spriteWidth,frameY * spriteHeight,spriteWidth,spriteHeight,0,0,spriteWidth,spriteHeight);  
+        }
+    //Lagging when draw Image
+    
 
     //Stop
     if (
