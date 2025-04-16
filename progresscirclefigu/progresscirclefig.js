@@ -238,9 +238,10 @@ function animate() {
       spriteWidth,
       spriteHeight
     );
-    //Nose
+
+    //Eye
     ctx.drawImage(
-      noseDraw,
+      eyeDraw,
       frameX * spriteWidth,
       frameY * spriteHeight,
       spriteWidth,
@@ -250,9 +251,9 @@ function animate() {
       spriteWidth,
       spriteHeight
     );
-    //Eye
+    //Nose
     ctx.drawImage(
-      eyeDraw,
+      noseDraw,
       frameX * spriteWidth,
       frameY * spriteHeight,
       spriteWidth,
