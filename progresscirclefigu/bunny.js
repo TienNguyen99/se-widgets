@@ -19,11 +19,6 @@ let CANVAS_WIDTH = (canvas.width = 400);
 let CANVAS_HEIGHT = (canvas.height = 400);
 let spriteWidth = 400;
 let spriteHeight = 400;
-// Buffer canvas (off-screen)
-const bufferCanvas = document.createElement("canvas");
-bufferCanvas.width = 400;
-bufferCanvas.height = 400;
-const bufferCtx = bufferCanvas.getContext("2d");
 // Bunny Sprite
 const bunnyDraw = new Image();
 bunnyDraw.src =
@@ -67,29 +62,6 @@ let speed = 4;
 //up = dec down = inc
 let animationId;
 let danceSpam = [];
-// Preload asset
-function preloadAssets(assets, callback) {
-  let loaded = 0;
-  const total = assets.length;
-
-  assets.forEach((img) => {
-    if (!img.src) {
-      loaded++;
-      if (loaded === total) callback();
-      return;
-    }
-
-    img.onload = () => {
-      loaded++;
-      if (loaded === total) callback();
-    };
-    img.onerror = () => {
-      console.warn("Failed to load", img.src);
-      loaded++;
-      if (loaded === total) callback();
-    };
-  });
-}
 
 //
 window.addEventListener("onWidgetLoad", function (obj) {
@@ -203,12 +175,8 @@ window.addEventListener("onWidgetLoad", function (obj) {
         "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Wings/Batwing.png";
       break;
   }
-  preloadAssets(
-    [image, eyeDraw, headDraw, neckDraw, noseDraw, wingsDraw],
-    () => {
-      animate();
-    }
-  );
+  stopAnimation();
+  animate();
 });
 window.addEventListener("onEventReceived", function (obj) {
   if (!obj.detail.event) {
@@ -307,18 +275,17 @@ window.addEventListener("onEventReceived", function (obj) {
 });
 //Function
 function animate() {
+  animationId = requestAnimationFrame(animate);
   frameDown++;
   if (frameDown % speed === 0) {
     currentFrame = currentFrame < maxFrame ? currentFrame + 1 : minFrame;
     frameX = currentFrame % totalFrame;
     frameY = Math.floor(currentFrame / totalFrame);
 
-    // Clear buffer
-    bufferCtx.clearRect(0, 0, spriteWidth, spriteHeight);
-
-    // Vẽ vào buffer
-    bufferCtx.drawImage(
-      image,
+    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    //Bunny
+    ctx.drawImage(
+      bunnyDraw,
       frameX * spriteWidth,
       frameY * spriteHeight,
       spriteWidth,
@@ -328,18 +295,8 @@ function animate() {
       spriteWidth,
       spriteHeight
     );
-    bufferCtx.drawImage(
-      noseDraw,
-      frameX * spriteWidth,
-      frameY * spriteHeight,
-      spriteWidth,
-      spriteHeight,
-      0,
-      0,
-      spriteWidth,
-      spriteHeight
-    );
-    bufferCtx.drawImage(
+    //Eye
+    ctx.drawImage(
       eyeDraw,
       frameX * spriteWidth,
       frameY * spriteHeight,
@@ -350,7 +307,8 @@ function animate() {
       spriteWidth,
       spriteHeight
     );
-    bufferCanvas.drawImage(
+    //Head1
+    ctx.drawImage(
       head1Draw,
       frameX * spriteWidth,
       frameY * spriteHeight,
@@ -361,7 +319,8 @@ function animate() {
       spriteWidth,
       spriteHeight
     );
-    bufferCanvas.drawImage(
+    //Head2
+    ctx.drawImage(
       head2Draw,
       frameX * spriteWidth,
       frameY * spriteHeight,
@@ -372,8 +331,8 @@ function animate() {
       spriteWidth,
       spriteHeight
     );
-    
-    bufferCtx.drawImage(
+    //Neck
+    ctx.drawImage(
       neckDraw,
       frameX * spriteWidth,
       frameY * spriteHeight,
@@ -384,7 +343,20 @@ function animate() {
       spriteWidth,
       spriteHeight
     );
-    bufferCtx.drawImage(
+    //Nose
+    ctx.drawImage(
+      noseDraw,
+      frameX * spriteWidth,
+      frameY * spriteHeight,
+      spriteWidth,
+      spriteHeight,
+      0,
+      0,
+      spriteWidth,
+      spriteHeight
+    );
+    //Wings
+    ctx.drawImage(
       wingsDraw,
       frameX * spriteWidth,
       frameY * spriteHeight,
@@ -396,11 +368,7 @@ function animate() {
       spriteHeight
     );
 
-    // Draw từ buffer ra canvas chính
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    ctx.drawImage(bufferCanvas, 0, 0);
-
-    // Stop tại frame cuối
+    //Stop
     if (
       currentFrame === 48 ||
       currentFrame === 74 ||
@@ -418,11 +386,7 @@ function animate() {
       setFrame(0, 15, animationSpeed);
     }
   }
-
-  // Lặp lại animation
-  animationId = requestAnimationFrame(animate);
 }
-
 
 function stopAnimation() {
   cancelAnimationFrame(animationId);
