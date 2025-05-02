@@ -15,37 +15,31 @@ let skin = "";
 /*Canvas field */
 let canvas = document.getElementById("canvasSrc");
 let ctx = canvas.getContext("2d");
-let CANVAS_WIDTH = (canvas.width = 400);
-let CANVAS_HEIGHT = (canvas.height = 400);
-let spriteWidth = 400;
-let spriteHeight = 400;
+let CANVAS_WIDTH = (canvas.width = 200);
+let CANVAS_HEIGHT = (canvas.height = 200);
+let spriteWidth = 200;
+let spriteHeight = 200;
 // Bunny Sprite
 const bunnyDraw = new Image();
-bunnyDraw.src =
-  "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Bunny/White.png";
+bunnyDraw.src = "";
 // Eye
 const eyeDraw = new Image();
 eyeDraw.src = "";
 // Head1
 const head1Draw = new Image();
-head1Draw.src =
-  "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head 1/Cap.png";
+head1Draw.src = "";
 // Head2
 const head2Draw = new Image();
-head2Draw.src =
-  "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head 2/Antlers.png";
+head2Draw.src = "";
 // Neck
 const neckDraw = new Image();
-neckDraw.src =
-  "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/Babybluescarf.png";
+neckDraw.src = "";
 // Nose
 const noseDraw = new Image();
-noseDraw.src =
-  "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Nose/Bandage.png";
+noseDraw.src = "";
 // Wings
 const wingsDraw = new Image();
-wingsDraw.src =
-  "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Wings/Angelwing.png";
+wingsDraw.src = "";
 //animation can play
 let totalFrame = 10;
 let currentFrame = 0;
@@ -82,97 +76,155 @@ window.addEventListener("onWidgetLoad", function (obj) {
   switch (eye) {
     case "Catmask":
       eyeDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Eyes/Catmask.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Eyes/{eye}.png";
       break;
     case "Eyepatch":
       eyeDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Eyes/Eyepatch.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Eyes/{eye}.png";
       break;
     case "Glasses":
       eyeDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Eyes/Glasses.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Eyes/{eye}.png";
       break;
     case "Heartglasses":
       eyeDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Eyes/Heartglasses.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Eyes/{eye}.png";
+      break;
+    case "Monocle":
+      eyeDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Eyes/{eye}.png";
+      break;
+    case "Sunglasses":
+      eyeDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Eyes/{eye}.png";
       break;
   }
   switch (head1) {
     case "Cap":
       head1Draw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head 1/Cap.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head1/{head1}.png";
       break;
     case "Crown":
       head1Draw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head 1/Crown.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head1/{head1}.png";
       break;
-    case "Flower":
+    case "Flowers":
       head1Draw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head 1/Flower.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head1/{head1}.png";
       break;
-    case "Hat":
+    case "Halo":
       head1Draw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head 1/Hat.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head1/{head1}.png";
+      break;
+    case "Piratehat":
+      head1Draw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head1/{head1}.png";
+      break;
+    case "Redbow":
+      head1Draw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head1/{head1}.png";
+      break;
+    case "Seeding":
+      head1Draw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head1/{head1}.png";
+      break;
+    case "Sombrerohat":
+      head1Draw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head1/{head1}.png";
       break;
   }
   switch (head2) {
     case "Antlers":
       head2Draw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head 2/Antlers.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head2/{head2}.png";
       break;
-    case "Bandana":
+    case "Flowers":
       head2Draw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head 2/Bandana.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head2/{head2}.png";
       break;
-    case "Flower":
+    case "Halo":
       head2Draw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head 2/Flower.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head2/{head2}.png";
       break;
-    case "Glasses":
+    case "Horns":
       head2Draw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head 2/Glasses.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Head2/{head2}.png";
       break;
   }
   switch (neck) {
     case "Babybluescarf":
       neckDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/Babybluescarf.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/{neck}.png";
       break;
-    case "Bandage":
+    case "Bluescarf":
       neckDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/Bandage.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/{neck}.png";
       break;
-    case "Bowtie":
+    case "Bow":
       neckDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/Bowtie.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/{neck}.png";
       break;
-    case "Scarf":
+    case "Heartbow":
       neckDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/Scarf.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/{neck}.png";
+      break;
+    case "Pinkscarf":
+      neckDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/{neck}.png";
+      break;
+    case "Purpleribbon":
+      neckDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/{neck}.png";
+      break;
+    case "Redbow":
+      neckDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/{neck}.png";
+      break;
+    case "Starbow":
+      neckDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Neck/{neck}.png";
       break;
   }
   switch (nose) {
     case "Bandage":
       noseDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Nose/Bandage.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Nose/{nose}.png";
       break;
-    case "Heart":
+    case "Clownnose":
       noseDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Nose/Heart.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Nose/{nose}.png";
       break;
-    case "Nose":
+    case "Moustacles":
       noseDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Nose/Nose.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Nose/{nose}.png";
       break;
   }
   switch (wings) {
     case "Angelwing":
       wingsDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Wings/Angelwing.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Wings/{wings}.png";
       break;
-    case "Batwing":
+    case "Demonwing":
       wingsDraw.src =
-        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Wings/Batwing.png";
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Wings/{wings}.png";
+      break;
+  }
+  switch (skin) {
+    case "Blackandwhite":
+      bunnyDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Bunny/{skin}.png";
+      break;
+    case "Mocha":
+      bunnyDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Bunny/{skin}.png";
+      break;
+    case "Pink":
+      bunnyDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Bunny/{skin}.png";
+      break;
+    case "White":
+      bunnyDraw.src =
+        "https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Bunny/{skin}.png";
       break;
   }
   stopAnimation();

@@ -1,0 +1,107 @@
+{
+  "animationSpeed": {
+    "type": "dropdown",
+    "label": "Animation Speed",
+    "value": "9",
+    "options": {
+      "7": "Very fast",
+      "8": "Fast",
+      "9": "Default",
+      "10": "Slow",
+      "11": "Very slow"
+    }
+  },
+  "skin": {
+    "type": "dropdown",
+    "label": "Skin",
+    "value": "White",
+    "options": {
+      "White": "White",
+      "BlackWhite": "Black and White",
+      "Mocha": "Mocha",
+      "Pink": "Pink"
+    }
+  },
+  "eye": {
+    "type": "dropdown",
+    "label": "Eyes",
+    "value": "",
+    "options": {
+      "Catmask": "Catmask",
+      "Eyepatch": "Eyepatch",
+      "Glasses": "Glasses",
+      "Heartglasses": "Heartglasses",
+      "Monocle": "Monocle",
+      "Sunglasses": "Sunglasses"
+    }
+  },
+    "head1": {
+    "type": "dropdown",
+    "label": "Head 1",
+    "value": "",
+    "options": {
+      "Catmask": "Catmask",
+      "Eyepatch": "Eyepatch",
+      "Glasses": "Glasses",
+      "Heartglasses": "Heartglasses",
+      "Monocle": "Monocle",
+      "Sunglasses": "Sunglasses"
+    }
+  },
+    "head2": {
+    "type": "dropdown",
+    "label": "Head 2 ",
+    "value": "",
+    "options": {
+      "Catmask": "Catmask",
+      "Eyepatch": "Eyepatch",
+      "Glasses": "Glasses",
+      "Heartglasses": "Heartglasses",
+      "Monocle": "Monocle",
+      "Sunglasses": "Sunglasses"
+    }
+  },
+    "neck": {
+    "type": "dropdown",
+    "label": "Neck",
+    "value": "",
+    "options": {
+      "Catmask": "Catmask",
+      "Eyepatch": "Eyepatch",
+      "Glasses": "Glasses",
+      "Heartglasses": "Heartglasses",
+      "Monocle": "Monocle",
+      "Sunglasses": "Sunglasses"
+    }
+  },
+    "nose": {
+    "type": "dropdown",
+    "label": "Nose",
+    "value": "",
+    "options": {
+      "Catmask": "Catmask",
+      "Eyepatch": "Eyepatch",
+      "Glasses": "Glasses",
+      "Heartglasses": "Heartglasses",
+      "Monocle": "Monocle",
+      "Sunglasses": "Sunglasses"
+    }
+  },
+    "wings": {
+    "type": "dropdown",
+    "label": "Wings",
+    "value": "",
+    "options": {
+      "Catmask": "Catmask",
+      "Eyepatch": "Eyepatch",
+      "Glasses": "Glasses",
+      "Heartglasses": "Heartglasses",
+      "Monocle": "Monocle",
+      "Sunglasses": "Sunglasses"
+    }
+  },
+  "widgetDuration": {
+    "type": "hidden",
+    "value": 3
+  }
+}
