@@ -1,162 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Reactive Pet Mockup</title>
-    <style>
-        body {
-            background: #fceee2;
-            font-family: 'Courier New', monospace;
-            margin: 0;
-            padding: 20px;
-            image-rendering: pixelated;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            background: #fff3eb;
-            border: 4px solid #b88f7b;
-            border-radius: 10px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #a55c4a;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .panel {
-            background: #fff;
-            border: 2px solid #d9b7a8;
-            border-radius: 6px;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .panel h2 {
-            margin: 0 0 10px;
-            font-size: 16px;
-            background: #f6d5c0;
-            padding: 4px;
-            border: 1px solid #c48c74;
-            border-radius: 4px;
-        }
-
-        .icons {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-
-        .icon {
-            width: 40px;
-            height: 40px;
-            background-color: #ddd;
-            border: 2px solid #aaa;
-            cursor: pointer;
-        }
-
-        .icon.selected {
-            border-color: red;
-        }
-
-        .preview {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .preview img {
-            width: 100px;
-            height: auto;
-        }
-
-        pre {
-            background: #eee;
-            padding: 10px;
-            overflow-x: auto;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <h1>Reactive Pet</h1>
-
-        <div class="grid">
-            <div class="panel">
-                <h2>!SLEEP</h2>
-                <div class="icons" id="face-options">
-                    <div class="icon" data-face="sleep"></div>
-                    <div class="icon" data-face="happy"></div>
-                    <div class="icon" data-face="angry"></div>
-                    <div class="icon" data-face="sad"></div>
-                </div>
-            </div>
-
-            <div class="panel">
-                <h2>ACCESSORIES</h2>
-                <div class="icons" id="accessory-options">
-                    <div class="icon" data-accessory="glasses"></div>
-                    <div class="icon" data-accessory="hat"></div>
-                    <div class="icon" data-accessory="ribbon"></div>
-                    <div class="icon" data-accessory="scarf"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="preview">
-            <p>Preview:</p>
-            <img id="pet-image" src="https://via.placeholder.com/100x100?text=Pet" alt="Pet" />
-        </div>
-
-        <div class="preview">
-            <p>Generated JSON:</p>
-            <pre id="json-output">{}</pre>
-        </div>
+    <!-- Sprite display -->
+    <div class="img_box">
+        <canvas id="canvasSrc" width="400" height="400"></canvas>
     </div>
+    <svg id="svg" width="100%" height="100%" viewBox="0 0 400 400" style="transform: rotate(-90deg)">
+        <defs>
+            <linearGradient id="conic" x1="0%" y1="0%">
+                <stop offset="0%" stop-color="{{gradient1}}" />
+                <stop offset="100%" stop-color="{{gradient2}}" />
+            </linearGradient>
+        </defs <circle class="white-outline" r="110" cx="200" cy="200" fill="transparent">
+        </circle>
+        <circle class="white-outline" r="90" cx="200" cy="200" fill="transparent"></circle>
 
-    <script>
-        let selectedFace = null;
-        let selectedAccessory = null;
+        <circle class="black-outline" r="105" cx="200" cy="200" fill="transparent"></circle>
+        <circle class="black-outline" r="95" cx="200" cy="200" fill="transparent"></circle>
+        <!-- Base track + animated progress bar -->
+        <circle r="100" cx="200" cy="200" fill="transparent" stroke-dasharray="628.318530718" stroke-dashoffset="0">
+        </circle>
+        <circle id="bar" r="100" cx="200" cy="200" fill="transparent" stroke-dasharray="628.318530718"
+            stroke-dashoffset="0" stroke-linecap="round"></circle>
+        <!-- Trans -->
+        <circle id="red-fill" r="100" cx="200" cy="200" fill="gray"></circle>
+    </svg>
 
-        document.querySelectorAll('#face-options .icon').forEach(icon => {
-            icon.addEventListener('click', () => {
-                document.querySelectorAll('#face-options .icon').forEach(i => i.classList.remove('selected'));
-                icon.classList.add('selected');
-                selectedFace = icon.dataset.face;
-                updateJSON();
-            });
-        });
 
-        document.querySelectorAll('#accessory-options .icon').forEach(icon => {
-            icon.addEventListener('click', () => {
-                document.querySelectorAll('#accessory-options .icon').forEach(i => i.classList.remove('selected'));
-                icon.classList.add('selected');
-                selectedAccessory = icon.dataset.accessory;
-                updateJSON();
-            });
-        });
-
-        function updateJSON() {
-            const data = {
-                face: selectedFace || null,
-                accessory: selectedAccessory || null
-            };
-            document.getElementById('json-output').textContent = JSON.stringify(data, null, 2);
-        }
-    </script>
-</body>
-
-</html>
+    <!-- Text content -->
+    <div class="goal_text"></div>
+    <div class="percent_value"></div>
