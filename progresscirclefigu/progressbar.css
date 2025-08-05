@@ -25,39 +25,33 @@ body {
     position: absolute;
     width: 100%;
     
-    color: black;
-    font-size: 34px;
+    color: white;
+    font-size: 22px;
     opacity: 0;
-    z-index: 2;
+    z-index: 3;
 }
-@keyframes beautifulFadeBounce {
+#text_box .event {
+
+  color: #ffcc00;
+}
+
+@keyframes revealFromCenter {
   0% {
     opacity: 0;
-    transform: translateY(-30px) scale(0.8) rotateX(90deg);
-  }
-  15% {
-    opacity: 1;
-    transform: translateY(0) scale(1.05) rotateX(0deg);
-  }
-  30% {
-    transform: translateY(-5px) scale(1);
+    clip-path: inset(0 50% 0 50%);
   }
   50% {
-    transform: translateY(0px) scale(1);
-  }
-  70% {
     opacity: 1;
+    clip-path: inset(0 0% 0 0%);
   }
   100% {
-    opacity: 0;
-    transform: translateY(-30px) scale(0.9) rotateX(-90deg);
+    opacity: 1;
+    clip-path: inset(0 0% 0 0%);
   }
 }
 
-/* Class to trigger animation */
 .animate {
-  animation: beautifulFadeBounce 5s ease-in-out forwards;
-  transform-origin: top center;
+  animation: revealFromCenter 3s ease-out ;
 }
 .frame {
   width: 414px;
@@ -66,10 +60,9 @@ body {
   background-image: url('https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Panel/Panel.png');
   background-repeat: no-repeat;
   background-size: 4968px 200px; 
-  animation: frameAnim 2s steps(12) forwards;
-  ;
- 
-  z-index: 1;
+  animation: frameAnim 2s steps(12) 1; /* Chạy 1 lần */
+  animation-fill-mode: forwards; /* Giữ trạng thái cuối */
+  z-index: 2;
 }
 
 @keyframes frameAnim {
@@ -77,9 +70,8 @@ body {
     background-position: 0 0;
   }
   to {
-    background-position: -4968px 0;
+    background-position: -4968px 0; /* Đảm bảo frame cuối là hình ảnh mong muốn */
   }
 }
-
 
 
