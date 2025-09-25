@@ -1,1 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" viewBox="0 -0.5 480 32" width="480" height="32"><metadata>Generated with pixel-perfect-svg https://github.com/kagof/pixel-perfect-svg</metadata><path stroke="#2f1d17" d="M8,0h464M8,1h464M8,2h464M8,3h464M4,4h472M4,5h472M4,6h472M4,7h472M0,8h12M468,8h12M0,9h12M468,9h12M0,10h12M468,10h12M0,11h12M468,11h12M0,12h8M472,12h8M0,13h8M472,13h8M0,14h8M472,14h8M0,15h8M472,15h8M0,16h8M472,16h8M0,17h8M472,17h8M0,18h8M472,18h8M0,19h8M472,19h8M0,20h12M468,20h12M0,21h12M468,21h12M0,22h12M468,22h12M0,23h12M468,23h12M4,24h472M4,25h472M4,26h472M4,27h472M8,28h464M8,29h464M8,30h464M8,31h464"/></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-0e2f92f0-db2c-4b4a-85de-89ee666ebcfe" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 415 90">
+  <defs>
+    <style>
+      .uuid-ff052ed8-ad1b-409d-bd16-b0b5b3c7a3d8 {
+        fill: #d4d4d4;
+        filter: url(#uuid-a53bdc02-2346-4869-8b73-caed9adef459);
+        stroke: #005513;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+    </style>
+    <filter id="uuid-a53bdc02-2346-4869-8b73-caed9adef459" data-name="drop-shadow-1" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="5"/>
+      <feGaussianBlur result="uuid-2c1688d5-0286-4f21-856a-b2e5f96952c1" stdDeviation="2"/>
+      <feFlood flood-color="#000" flood-opacity=".4"/>
+      <feComposite in2="uuid-2c1688d5-0286-4f21-856a-b2e5f96952c1" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="uuid-45f0404f-4503-496d-a7d5-439dfba95ade" data-name="Layer 1">
+    <rect class="uuid-ff052ed8-ad1b-409d-bd16-b0b5b3c7a3d8" x="7.5" y="2.5" width="400" height="75" rx="37.5" ry="37.5"/>
+  </g>
+</svg>
