@@ -59,10 +59,10 @@ const ctxWings = canvasWings.getContext("2d");
 let wingsImg = new Image();
 
 let currentFrame2 = 0;
-let minFrame2 = 0;
-let maxFrame2 = 0;
+let minFrame2 = 4;
+let maxFrame2 = 4;
 let frameDown2 = 0;
-let totalFrame2 = 10;
+let totalFrame2 = 5;
 let speed2 = 4;
 let aniId2 = null;
 
@@ -149,18 +149,16 @@ window.addEventListener("onEventReceived", function (obj) {
      if (text.includes("!tree")) {
       // 5% setFrame2(0,0,speed2)
       const r = Math.random();
-      if (r < 0.1) { setFrame2(0,0,speed2); }
-      else if (r < 0.1) { setFrame2(1,1,speed2); }
-      else if (r < 0.1) { setFrame2(2,2,speed2); }
-      else if (r < 0.1) { setFrame2(3,3,speed2); }
-      else if (r < 0.1) { setFrame2(4,4,speed2); }
-      else if (r < 0.1) { setFrame2(5,5,speed2); }
-      else if (r < 0.1) { setFrame2(6,6,speed2); }
-      else if (r < 0.1) { setFrame2(7,7,speed2); }
-      else if (r < 0.1) { setFrame2(8,8,speed2); }
-      else { setFrame2(9,9,speed2);
-    }
-
+      if (r < 0.1) { setFrame2(0,3,speed2);setFrame2(4,4,speed2); }
+      else if (r < 0.1) { setFrame2(5,8,speed2);setFrame2(9,9,speed2); }
+      else if (r < 0.1) { setFrame2(10,13,speed2);setFrame2(14,14,speed2); }
+      else if (r < 0.1) { setFrame2(15,18,speed2);setFrame2(19,19,speed2); }
+      else if (r < 0.1) { setFrame2(20,23,speed2);setFrame2(24,24,speed2); }
+      else if (r < 0.1) { setFrame2(25,28,speed2);setFrame2(29,29,speed2); }
+      else if (r < 0.1) { setFrame2(30,33,speed2);setFrame2(34,34,speed2); }
+      else if (r < 0.1) { setFrame2(35,38,speed2);setFrame2(39,39,speed2); }
+      else if (r < 0.1) { setFrame2(40,43,speed2);setFrame2(44,44,speed2); }
+      else if (r < 0.1) { setFrame2(45,48,speed2);setFrame2(49,49,speed2); }
      }
   }
 
