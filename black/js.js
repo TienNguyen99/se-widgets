@@ -40,6 +40,13 @@ let speed = 4;
 let animationId;
 let danceSpam = [];
 
+// Sleep animation control
+let sleepTimeout;
+let isSleeping = false;
+const SLEEP_DELAY = 30000; // 30 seconds
+let pendingEvent = null;
+let pendingListener = null;
+
 // Load assets
 window.addEventListener("onWidgetLoad", function (obj) {
   recents = obj.detail.recents;
@@ -74,6 +81,13 @@ window.addEventListener("onEventReceived", function (obj) {
   }
   const listener = obj.detail.listener;
   const event = obj.detail.event;
+  
+  // If sleeping, wake up first
+  if (isSleeping) {
+    wakeUpFromSleep(listener);
+    return;
+  }
+  
   switch (listener) {
     case "tip-latest":
       setFrame(165, 176, animationSpeed);
@@ -82,7 +96,7 @@ window.addEventListener("onEventReceived", function (obj) {
       
       break;
     case "follower-latest":
-      setFrame(66, 69, animationSpeed);
+      setFrame(66, 77, animationSpeed);
             stopAnimation();
       animate();
       break;
@@ -92,7 +106,7 @@ window.addEventListener("onEventReceived", function (obj) {
       animate();
       break;
     case "raid-latest":
-      setFrame(99, 107, animationSpeed);
+      setFrame(99, 116, animationSpeed);
             stopAnimation();
       animate();
       break;
@@ -108,7 +122,7 @@ window.addEventListener("onEventReceived", function (obj) {
               stopAnimation();
       animate();
       } else {
-        setFrame(132, 141, animationSpeed);
+        setFrame(132, 151, animationSpeed);
               stopAnimation();
       animate();
       }
@@ -131,6 +145,7 @@ window.addEventListener("onEventReceived", function (obj) {
 
   stopAnimation();
   animate();
+  resetSleepTimer();
 });
 
 // Animate function
@@ -149,15 +164,35 @@ function animate() {
 
     if (
       currentFrame === 65 ||
-      currentFrame === 69 ||
-      currentFrame === 107 ||
-      currentFrame === 141 ||
+      currentFrame === 77 ||
+      currentFrame === 116 ||
+      currentFrame === 151 ||
       currentFrame === 176 ||
       currentFrame === 224 ||
       currentFrame === 247 ||
-      currentFrame === 289
+      currentFrame === 289 ||
+      currentFrame === 305 ||
+      currentFrame === 310 ||
+      currentFrame === 315
     ) {
-      setFrame(0, 5, animationSpeed);
+      // If was sleeping and woke up, continue with tip animation
+      if (!isSleeping && currentFrame === 315) {
+        if (pendingEvent) {
+          // Process the pending event - show tip-latest
+          setFrame(165, 176, animationSpeed);
+          pendingEvent = null;
+        } else {
+          setFrame(0, 5, animationSpeed);
+        }
+      } 
+      // Continuous sleep animation
+      else if (isSleeping && currentFrame === 305) {
+        setFrame(305, 310, animationSpeed);
+      }
+      // Return to idle
+      else if (!isSleeping && pendingEvent === null) {
+        setFrame(0, 5, animationSpeed);
+      }
     }
   }
 }
@@ -174,4 +209,40 @@ function setFrame(min, max, spd) {
   speed = spd;
   frameDown = 0;
   currentFrame = min;
+}
+
+// Reset sleep timer - called when activity happens
+function resetSleepTimer() {
+  clearTimeout(sleepTimeout);
+  isSleeping = false;
+  
+  // Set new timer to trigger sleep animation after 30 seconds
+  sleepTimeout = setTimeout(() => {
+    triggerSleep();
+  }, SLEEP_DELAY);
+}
+
+// Trigger sleep animation sequence
+function triggerSleep() {
+  isSleeping = true;
+  // setFrame(300, 305) - sit down animation
+  setFrame(300, 305, animationSpeed);
+  stopAnimation();
+  animate();
+}
+
+// Wake up and handle event
+function wakeUpFromSleep(eventType) {
+  if (!isSleeping) return;
+  
+  isSleeping = false;
+  clearTimeout(sleepTimeout);
+  
+  // setFrame(311, 315) - wake up animation
+  setFrame(311, 315, animationSpeed);
+  stopAnimation();
+  animate();
+  
+  // Store the event to be processed after wake up
+  pendingEvent = eventType;
 }
