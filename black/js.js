@@ -29,7 +29,7 @@ head1Draw.src = "";
 
 
 // animation control
-let totalFrame = 33;
+let totalFrame = 45;
 let currentFrame = 0;
 let frameX = 0;
 let frameY = 0;
@@ -43,9 +43,11 @@ let danceSpam = [];
 // Sleep animation control
 let sleepTimeout;
 let isSleeping = false;
-const SLEEP_DELAY = 30000; // 30 seconds
+const SLEEP_DELAY = 5000; // 30 seconds
 let pendingEvent = null;
 let pendingListener = null;
+let pendingEventData = null;
+let isCommandPlaying = false; // Track if command animation is playing
 
 // Load assets
 window.addEventListener("onWidgetLoad", function (obj) {
@@ -71,6 +73,7 @@ if (skin === "none" || !skin) {
 }
   stopAnimation();
   animate();
+  resetSleepTimer();
 });
 
 // Event Received
@@ -84,61 +87,64 @@ window.addEventListener("onEventReceived", function (obj) {
   
   // If sleeping, wake up first
   if (isSleeping) {
-    wakeUpFromSleep(listener);
+    wakeUpFromSleep(listener, event);
     return;
   }
   
   switch (listener) {
     case "tip-latest":
-      setFrame(165, 176, animationSpeed);
+      setFrame(225, 236, animationSpeed);
       stopAnimation();
       animate();
       
       break;
     case "follower-latest":
-      setFrame(66, 77, animationSpeed);
+      setFrame(90, 101, animationSpeed);
             stopAnimation();
       animate();
       break;
     case "cheer-latest":
-      setFrame(165, 176, animationSpeed);
+      setFrame(225, 236, animationSpeed);
             stopAnimation();
       animate();
       break;
     case "raid-latest":
-      setFrame(99, 116, animationSpeed);
+      setFrame(135, 152, animationSpeed);
             stopAnimation();
       animate();
       break;
     case "subscriber-latest":
       if (event.bulkGifted){
-        setFrame(165, 176, animationSpeed);
+        setFrame(225, 236, animationSpeed);
               stopAnimation();
       animate();
       }
       else if(event.isCommunityGift) return false;
       else if (event.gifted) {
-        setFrame(165, 176, animationSpeed);
+        setFrame(225, 236, animationSpeed);
               stopAnimation();
       animate();
       } else {
-        setFrame(132, 151, animationSpeed);
+        setFrame(180, 199, animationSpeed);
               stopAnimation();
       animate();
       }
       break;
     case "message":
-      if (event.data.text.includes("!sleep")) setFrame(33, 65, animationSpeed);
-            stopAnimation();
-      animate();
-      if (event.data.text.includes("!pat")) setFrame(198, 224, animationSpeed);
-            stopAnimation();
-      animate();
-      if (event.data.text.includes("!feed")) setFrame(231, 247, animationSpeed);
-            stopAnimation();
-      animate();
-      if (event.data.text.includes("!explosion")) setFrame(264, 289, animationSpeed);
-            stopAnimation();
+      if (event.data.text.includes("!sleep")) {
+        setFrame(45, 77, animationSpeed);
+        isCommandPlaying = true;
+      } else if (event.data.text.includes("!pat")) {
+        setFrame(270, 296, animationSpeed);
+        isCommandPlaying = true;
+      } else if (event.data.text.includes("!feed")) {
+        setFrame(315, 331, animationSpeed);
+        isCommandPlaying = true;
+      } else if (event.data.text.includes("!explosion")) {
+        setFrame(360, 404, animationSpeed);
+        isCommandPlaying = true;
+      }
+      stopAnimation();
       animate();
       break;
   }
@@ -163,31 +169,40 @@ function animate() {
     ctx.drawImage(bufferCanvas, 0, 0);
 
     if (
-      currentFrame === 65 ||
       currentFrame === 77 ||
-      currentFrame === 116 ||
-      currentFrame === 151 ||
-      currentFrame === 176 ||
-      currentFrame === 224 ||
-      currentFrame === 247 ||
-      currentFrame === 289 ||
-      currentFrame === 305 ||
-      currentFrame === 310 ||
-      currentFrame === 315
+      currentFrame === 101 ||
+      currentFrame === 152 ||
+      currentFrame === 199 ||
+      currentFrame === 236 ||
+      currentFrame === 296 ||
+      currentFrame === 331 ||
+      currentFrame === 404 ||
+      currentFrame === 408 ||
+      currentFrame === 473 ||
+      currentFrame === 499
     ) {
-      // If was sleeping and woke up, continue with tip animation
-      if (!isSleeping && currentFrame === 315) {
+      // If command animation finished, return to idle and delay sleep
+      if (isCommandPlaying && (currentFrame === 77 || currentFrame === 296 || currentFrame === 331 || currentFrame === 404)) {
+        isCommandPlaying = false;
+        setFrame(0, 5, animationSpeed);
+        resetSleepTimer(); // Reset timer to delay sleep by 5s
+        return;
+      }
+      
+      // If was sleeping and woke up, continue with pending event
+      if (!isSleeping && currentFrame === 499) {
         if (pendingEvent) {
-          // Process the pending event - show tip-latest
-          setFrame(165, 176, animationSpeed);
+          // Handle pending event based on type
+          handlePendingEvent(pendingEvent, pendingEventData);
           pendingEvent = null;
+          pendingEventData = null;
         } else {
           setFrame(0, 5, animationSpeed);
         }
       } 
       // Continuous sleep animation
-      else if (isSleeping && currentFrame === 305) {
-        setFrame(305, 310, animationSpeed);
+      else if (isSleeping && currentFrame === 408) {
+        setFrame(450, 473, animationSpeed);
       }
       // Return to idle
       else if (!isSleeping && pendingEvent === null) {
@@ -225,24 +240,88 @@ function resetSleepTimer() {
 // Trigger sleep animation sequence
 function triggerSleep() {
   isSleeping = true;
-  // setFrame(300, 305) - sit down animation
-  setFrame(300, 305, animationSpeed);
+  // setFrame(405, 408) - sit down animation
+  setFrame(405, 408, animationSpeed);
   stopAnimation();
   animate();
 }
 
 // Wake up and handle event
-function wakeUpFromSleep(eventType) {
+function wakeUpFromSleep(eventType, eventData) {
   if (!isSleeping) return;
   
   isSleeping = false;
   clearTimeout(sleepTimeout);
   
-  // setFrame(311, 315) - wake up animation
-  setFrame(311, 315, animationSpeed);
+  // setFrame(495, 499) - wake up animation
+  setFrame(495, 499, animationSpeed);
   stopAnimation();
   animate();
   
   // Store the event to be processed after wake up
   pendingEvent = eventType;
+  pendingEventData = eventData;
+}
+
+// Handle pending event after waking up
+function handlePendingEvent(eventType, eventData) {
+  switch(eventType) {
+    case "tip-latest":
+      setFrame(225, 236, animationSpeed);
+      stopAnimation();
+      animate();
+      break;
+    case "follower-latest":
+      setFrame(90, 101, animationSpeed);
+      stopAnimation();
+      animate();
+      break;
+    case "cheer-latest":
+      setFrame(225, 236, animationSpeed);
+      stopAnimation();
+      animate();
+      break;
+    case "raid-latest":
+      setFrame(135, 152, animationSpeed);
+      stopAnimation();
+      animate();
+      break;
+    case "subscriber-latest":
+      setFrame(180, 199, animationSpeed);
+      stopAnimation();
+      animate();
+      break;
+    case "message":
+      // Handle message commands
+      if (eventData && eventData.data && eventData.data.text) {
+        if (eventData.data.text.includes("!sleep")) {
+          setFrame(45, 77, animationSpeed);
+          isCommandPlaying = true;
+        } else if (eventData.data.text.includes("!pat")) {
+          setFrame(270, 296, animationSpeed);
+          isCommandPlaying = true;
+        } else if (eventData.data.text.includes("!feed")) {
+          setFrame(315, 331, animationSpeed);
+          isCommandPlaying = true;
+        } else if (eventData.data.text.includes("!explosion")) {
+          setFrame(360, 404, animationSpeed);
+          isCommandPlaying = true;
+        } else {
+          setFrame(0, 5, animationSpeed);
+          stopAnimation();
+          animate();
+        }
+        // Don't call stopAnimation/animate for commands - let animation loop continue
+        return;
+      } else {
+        setFrame(0, 5, animationSpeed);
+        stopAnimation();
+        animate();
+      }
+      break;
+    default:
+      setFrame(0, 5, animationSpeed);
+      stopAnimation();
+      animate();
+  }
 }
