@@ -14,7 +14,7 @@ let CANVAS_HEIGHT = (canvas.height = 400);
 let spriteWidth = 400;
 let spriteHeight = 400;
 
-// 🆕 Buffer Canvas
+// Buffer Canvas
 const bufferCanvas = document.createElement("canvas");
 const bufferCtx = bufferCanvas.getContext("2d");
 bufferCanvas.width = CANVAS_WIDTH;
@@ -39,11 +39,11 @@ let frameDown = 0;
 let speed = 4;
 let animationId;
 let danceSpam = [];
-
+let customSleepTime = false;
 // Sleep animation control
 let sleepTimeout;
 let isSleeping = false;
-const SLEEP_DELAY = 5000; // 30 seconds
+const SLEEP_DELAY = 10000; // Default sleep delay: 10 seconds
 let pendingEvent = null;
 let pendingListener = null;
 let pendingEventData = null;
@@ -57,6 +57,7 @@ window.addEventListener("onWidgetLoad", function (obj) {
   animationSpeed = fieldData.animationSpeed;
   head1 = fieldData.head1;
   skin = fieldData.skin;
+  customSleepTime = fieldData.customSleepTime;
   speed = animationSpeed;
 
 
@@ -140,7 +141,7 @@ window.addEventListener("onEventReceived", function (obj) {
       } else if (event.data.text.includes("!feed")) {
         setFrame(315, 331, animationSpeed);
         isCommandPlaying = true;
-      } else if (event.data.text.includes("!explosion")) {
+      } else if (event.data.text.includes("!explode")) {
         setFrame(360, 404, animationSpeed);
         isCommandPlaying = true;
       }
@@ -164,7 +165,10 @@ function animate() {
     frameY = Math.floor(currentFrame / totalFrame);
     bufferCtx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     bufferCtx.drawImage(charDraw, frameX * spriteWidth, frameY * spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
-    bufferCtx.drawImage(head1Draw, frameX * spriteWidth, frameY * spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
+    // Only draw head1Draw if it has a source
+    if (head1Draw.src && head1Draw.src !== "") {
+      bufferCtx.drawImage(head1Draw, frameX * spriteWidth, frameY * spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
+    }
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     ctx.drawImage(bufferCanvas, 0, 0);
 
@@ -231,10 +235,11 @@ function resetSleepTimer() {
   clearTimeout(sleepTimeout);
   isSleeping = false;
   
-  // Set new timer to trigger sleep animation after 30 seconds
+  // Set new timer to trigger sleep animation after customSleepTime seconds (converted to ms)
+  const sleepTimeMs = (customSleepTime || 10) * 1000;
   sleepTimeout = setTimeout(() => {
     triggerSleep();
-  }, SLEEP_DELAY);
+  }, sleepTimeMs);
 }
 
 // Trigger sleep animation sequence
@@ -303,7 +308,7 @@ function handlePendingEvent(eventType, eventData) {
         } else if (eventData.data.text.includes("!feed")) {
           setFrame(315, 331, animationSpeed);
           isCommandPlaying = true;
-        } else if (eventData.data.text.includes("!explosion")) {
+        } else if (eventData.data.text.includes("!explode")) {
           setFrame(360, 404, animationSpeed);
           isCommandPlaying = true;
         } else {
