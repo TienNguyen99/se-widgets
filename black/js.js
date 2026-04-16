@@ -11,12 +11,14 @@ let canvas = document.getElementById("canvasSrc");
 let ctx = canvas.getContext("2d");
 let CANVAS_WIDTH = (canvas.width = 400);
 let CANVAS_HEIGHT = (canvas.height = 400);
-let spriteWidth = 400;
-let spriteHeight = 400;
+let spriteWidth = 200;
+let spriteHeight = 200;
 
-// Buffer Canvas
+// 🆕 Buffer Canvas
 const bufferCanvas = document.createElement("canvas");
 const bufferCtx = bufferCanvas.getContext("2d");
+
+// const bufferCtx = bufferCanvas.getContext("2d");
 bufferCanvas.width = CANVAS_WIDTH;
 bufferCanvas.height = CANVAS_HEIGHT;
 
@@ -36,7 +38,7 @@ let frameY = 0;
 let minFrame = 0;
 let maxFrame = 5;
 let frameDown = 0;
-let speed = 4;
+let speed = 9;
 let animationId;
 let danceSpam = [];
 let customSleepTime = false;
@@ -63,14 +65,32 @@ window.addEventListener("onWidgetLoad", function (obj) {
 
 if (head1 === "none" || !head1) {
   head1Draw.src = ``;
-} else {
-  head1Draw.src = `https://tiennguyen99.github.io/se-widgets/assets/blk/{head1}.png`;
+} else if (head1 === "chef_hat") {
+  head1Draw.src = `https://cdn.streamelements.com/uploads/01kgezeph2rbsdjtt3n1x5wbw4.png`;
+}  else if (head1 === "clown_wig") {
+  head1Draw.src = `https://cdn.streamelements.com/uploads/01kgezepcwmhbjdftcyn0kmheh.png`;
+} else if (head1 === "glasses") {
+  head1Draw.src = `https://cdn.streamelements.com/uploads/01kgezep9nchf6qaw4k4s4x47x.png`;
+} else if (head1 === "headphone") {
+  head1Draw.src = `https://cdn.streamelements.com/uploads/01kgezeph7czbhp2p5vn80mj51.png`;
 }
+else if (head1 === "lightstick") {
+  head1Draw.src = `https://cdn.streamelements.com/uploads/01kgezepgzysvnph8jfe037w43.png`;
+}
+else if (head1 === "pant_1") {
+  head1Draw.src = `https://cdn.streamelements.com/uploads/01kgezephkh3xrwmv7h1497mfd.png`;
+}
+else if (head1 === "pant_2") {
+  head1Draw.src = `https://cdn.streamelements.com/uploads/01kgezephazq10q10mwa9sf7cz.png`;
+}else if (head1 === "ribbon_warped") {
+  head1Draw.src = `https://cdn.streamelements.com/uploads/01kgezephd6mdfqjp3ykdvpx83.png`;
+}
+  
 
 if (skin === "none" || !skin) {
   charDraw.src = ``;
 } else {
-  charDraw.src = `https://tiennguyen99.github.io/se-widgets/assets/blk/{skin}.png`;
+  charDraw.src = `https://cdn.streamelements.com/uploads/01kgezepnhxkfgf9y2tgvj5xk4.png`;
 }
   stopAnimation();
   animate();
@@ -110,7 +130,7 @@ window.addEventListener("onEventReceived", function (obj) {
       animate();
       break;
     case "raid-latest":
-      setFrame(135, 152, animationSpeed);
+      setFrame(135, 170, animationSpeed);
             stopAnimation();
       animate();
       break;
@@ -165,17 +185,14 @@ function animate() {
     frameY = Math.floor(currentFrame / totalFrame);
     bufferCtx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     bufferCtx.drawImage(charDraw, frameX * spriteWidth, frameY * spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
-    // Only draw head1Draw if it has a source
-    if (head1Draw.src && head1Draw.src !== "") {
-      bufferCtx.drawImage(head1Draw, frameX * spriteWidth, frameY * spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
-    }
+    bufferCtx.drawImage(head1Draw, frameX * spriteWidth, frameY * spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     ctx.drawImage(bufferCanvas, 0, 0);
 
     if (
       currentFrame === 77 ||
       currentFrame === 101 ||
-      currentFrame === 152 ||
+      currentFrame === 170 ||
       currentFrame === 199 ||
       currentFrame === 236 ||
       currentFrame === 296 ||
@@ -287,7 +304,7 @@ function handlePendingEvent(eventType, eventData) {
       animate();
       break;
     case "raid-latest":
-      setFrame(135, 152, animationSpeed);
+      setFrame(135, 170, animationSpeed);
       stopAnimation();
       animate();
       break;
