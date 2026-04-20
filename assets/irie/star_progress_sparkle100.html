@@ -1,0 +1,373 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Cherry Bomb One", system-ui; background: transparent; display: flex; flex-direction: column; align-items: center; }
+
+  #cont { position: relative; width: 340px; height: 340px; }
+  #svg { width: 100%; height: 100%; overflow: visible; }
+  #svg path { fill: transparent; }
+
+  .white-outline { stroke: white; stroke-width: 28; filter: url(#glowFilter); animation: glowPulse 2.5s ease-in-out infinite; }
+  .black-outline  { stroke: #2d1b4e; stroke-width: 22; stroke-linejoin: round; stroke-linecap: round; }
+  .track          { stroke: #e8d5f5; stroke-width: 14; stroke-linejoin: round; stroke-linecap: round; }
+
+  #bar {
+    stroke: url(#barGrad);
+    stroke-width: 14;
+    stroke-linejoin: round; stroke-linecap: round;
+    transition: stroke-dasharray 1s cubic-bezier(0.34, 1.2, 0.64, 1);
+    filter: url(#barGlow);
+  }
+
+  .inner-dash {
+    stroke: rgba(255,255,255,0.35); stroke-width: 3;
+    stroke-dasharray: 8 6; stroke-linecap: round; stroke-linejoin: round;
+    animation: dashSpin 8s linear infinite;
+  }
+
+  #star-fill { fill: url(#fillGrad) !important; stroke: none !important; opacity: 1; }
+
+  @keyframes glowPulse {
+    0%,100% { filter: url(#glowFilter); opacity:.9; }
+    50%      { filter: url(#glowFilterBright); opacity:1; }
+  }
+  @keyframes dashSpin {
+    0%   { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -200; }
+  }
+
+  /* ── Shimmer sweep on bar ── */
+  #barShimmer {
+    stroke: url(#shimmerGrad);
+    stroke-width: 14; stroke-linejoin: round; stroke-linecap: round;
+    opacity: 0.45;
+    mix-blend-mode: screen;
+  }
+
+  /* ── Ambient sparkle ── */
+  .ambient-sparkle {
+    position: absolute; pointer-events: none; z-index: 7;
+    width: 6px; height: 6px;
+    background: radial-gradient(circle, #fff 0%, #e8b4f8 40%, transparent 70%);
+    border-radius: 50%;
+    animation: ambientFloat var(--dur, 2.5s) ease-in-out forwards;
+  }
+  .ambient-sparkle::before, .ambient-sparkle::after {
+    content: ''; position: absolute;
+    background: rgba(255,255,255,0.8); border-radius: 1px;
+  }
+  .ambient-sparkle::before {
+    width: 2px; height: 100%; left: 50%; top: 0; transform: translateX(-50%);
+  }
+  .ambient-sparkle::after {
+    width: 100%; height: 2px; top: 50%; left: 0; transform: translateY(-50%);
+  }
+  @keyframes ambientFloat {
+    0%   { opacity: 0; transform: scale(0) rotate(0deg); }
+    15%  { opacity: 1; transform: scale(1.2) rotate(30deg); }
+    50%  { opacity: 0.9; transform: scale(1) rotate(90deg) translateY(var(--drift, -8px)); }
+    100% { opacity: 0; transform: scale(0) rotate(180deg) translateY(var(--drift, -8px)); }
+  }
+
+  /* ── Star body subtle rainbow sweep ── */
+  #star-fill { animation: starBreath 4s ease-in-out infinite; }
+  @keyframes starBreath {
+    0%,100% { opacity: 0.85; }
+    50%     { opacity: 1; }
+  }
+
+  .img_box {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -48%);
+    z-index: 2;
+    animation: charFloat 3s ease-in-out infinite;
+  }
+  @keyframes charFloat {
+    0%,100% { transform: translate(-50%, -48%); }
+    50%      { transform: translate(-50%, -54%); }
+  }
+  #canvasSrc { width: 90px; height: 90px; image-rendering: pixelated; }
+
+  /* ── Sparkle particle ── */
+  .sp-particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10;
+    animation: spBurst var(--dur, 0.8s) ease-out forwards;
+  }
+  @keyframes spBurst {
+    0%   { opacity: 1; transform: translate(0,0) scale(1); }
+    50%  { opacity: 0.8; transform: translate(calc(var(--tx)*0.6), calc(var(--ty)*0.6)) scale(0.7); }
+    100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+  }
+
+  /* ── Star burst khi 100% ── */
+  .star-burst {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 10px; height: 10px;
+    margin: -5px 0 0 -5px;
+    pointer-events: none;
+    z-index: 9;
+    animation: starFly var(--dur,1s) ease-out forwards;
+    font-size: 16px;
+    line-height: 1;
+  }
+  @keyframes starFly {
+    0%   { opacity:1; transform: translate(0,0) scale(1) rotate(0deg); }
+    100% { opacity:0; transform: translate(var(--tx),var(--ty)) scale(0.3) rotate(var(--rot)); }
+  }
+
+  /* ── Ring flash khi 100% ── */
+  #flashRing {
+    position: absolute; top:0; left:0; width:100%; height:100%;
+    pointer-events: none; z-index: 8;
+    border-radius: 50%;
+    opacity: 0;
+  }
+  #flashRing.flash {
+    animation: ringFlash 0.6s ease-out forwards;
+  }
+  @keyframes ringFlash {
+    0%   { opacity: 0.9; box-shadow: 0 0 0 4px #e879f9, 0 0 30px 10px #c084fc, 0 0 60px 20px rgba(168,85,247,0.3); }
+    40%  { opacity: 0.5; box-shadow: 0 0 0 20px rgba(232,121,249,0.4), 0 0 50px 20px rgba(192,132,252,0.2); }
+    100% { opacity: 0; box-shadow: 0 0 0 50px transparent; }
+  }
+
+  .milestone-label { font-size: 9px; color: #c084fc; letter-spacing: 2px; margin-bottom: 2px; font-family: monospace; opacity:.8; }
+
+  .goal_text {
+    margin-top: 8px; font-size: 13px; letter-spacing:.5px;
+    background-image: linear-gradient(to bottom, #f7e0c4, #c084fc);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 1.5px; -webkit-text-stroke-color: white;
+    text-shadow: 0 0 12px #c084fc;
+    animation: textGlow 2.5s ease-in-out infinite;
+  }
+  .percent_value {
+    margin-top: 4px; font-size: 28px;
+    background-image: linear-gradient(to bottom, #fff, #c084fc);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 2px; -webkit-text-stroke-color: white;
+    text-shadow: 0 0 16px #c084fc;
+    animation: textGlow 2.5s ease-in-out infinite; min-height: 40px;
+  }
+  @keyframes textGlow {
+    0%,100% { text-shadow: 0 0 10px #c084fc; }
+    50%      { text-shadow: 0 0 22px #e879f9, 0 0 40px #a855f7; }
+  }
+
+  .controls { display:flex; gap:10px; margin-top:14px; }
+  .btn { font-family:"Cherry Bomb One",system-ui; font-size:13px; padding:8px 20px; border-radius:999px; border:2px solid #a855f7; background:#f3e8ff; color:#7c3aed; cursor:pointer; box-shadow:0 4px 0 #7c3aed; transition:transform .1s,box-shadow .1s; }
+  .btn:active { transform:translateY(4px); box-shadow:none; }
+  .btn.primary { background:#a855f7; color:white; border-color:#6d28d9; box-shadow:0 4px 0 #4c1d95; }
+</style>
+
+<div id="cont">
+  <svg id="svg" viewBox="0 0 600 600" overflow="visible">
+    <defs>
+      <linearGradient id="barGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"   stop-color="#f0abfc"/>
+        <stop offset="50%"  stop-color="#a855f7"/>
+        <stop offset="100%" stop-color="#818cf8"/>
+      </linearGradient>
+      <linearGradient id="fillGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"   stop-color="#f3e8ff" stop-opacity=".55"/>
+        <stop offset="100%" stop-color="#a855f7" stop-opacity=".25"/>
+      </linearGradient>
+      <filter id="glowFilter" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur stdDeviation="8" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="glowFilterBright" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="14" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="barGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="5" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <linearGradient id="shimmerGrad" gradientUnits="userSpaceOnUse">
+        <stop offset="0%"   stop-color="#fff" stop-opacity="0"/>
+        <stop offset="45%"  stop-color="#fff" stop-opacity="0"/>
+        <stop offset="50%"  stop-color="#fff" stop-opacity="0.9"/>
+        <stop offset="55%"  stop-color="#fff" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+        <animateTransform attributeName="gradientTransform" type="translate" from="-600 0" to="600 0" dur="2.5s" repeatCount="indefinite"/>
+      </linearGradient>
+    </defs>
+
+    <path id="star-fill" d="M300,50 C320,50 340,70 355,120 L375,185 C380,205 395,215 415,215 L480,215 C535,215 555,230 545,255 C540,268 525,280 500,298 L445,338 C428,350 422,370 430,392 L452,458 C468,510 460,535 438,535 C425,535 412,526 390,512 L335,472 C318,461 282,461 265,472 L210,512 C188,526 175,535 162,535 C140,535 132,510 148,458 L170,392 C178,370 172,350 155,338 L100,298 C75,280 60,268 55,255 C45,230 65,215 120,215 L185,215 C205,215 220,205 225,185 L245,120 C260,70 280,50 300,50 Z"/>
+    <path class="white-outline" d="M300,50 C320,50 340,70 355,120 L375,185 C380,205 395,215 415,215 L480,215 C535,215 555,230 545,255 C540,268 525,280 500,298 L445,338 C428,350 422,370 430,392 L452,458 C468,510 460,535 438,535 C425,535 412,526 390,512 L335,472 C318,461 282,461 265,472 L210,512 C188,526 175,535 162,535 C140,535 132,510 148,458 L170,392 C178,370 172,350 155,338 L100,298 C75,280 60,268 55,255 C45,230 65,215 120,215 L185,215 C205,215 220,205 225,185 L245,120 C260,70 280,50 300,50 Z"/>
+    <path class="black-outline" d="M300,50 C320,50 340,70 355,120 L375,185 C380,205 395,215 415,215 L480,215 C535,215 555,230 545,255 C540,268 525,280 500,298 L445,338 C428,350 422,370 430,392 L452,458 C468,510 460,535 438,535 C425,535 412,526 390,512 L335,472 C318,461 282,461 265,472 L210,512 C188,526 175,535 162,535 C140,535 132,510 148,458 L170,392 C178,370 172,350 155,338 L100,298 C75,280 60,268 55,255 C45,230 65,215 120,215 L185,215 C205,215 220,205 225,185 L245,120 C260,70 280,50 300,50 Z"/>
+    <path class="track" d="M300,50 C320,50 340,70 355,120 L375,185 C380,205 395,215 415,215 L480,215 C535,215 555,230 545,255 C540,268 525,280 500,298 L445,338 C428,350 422,370 430,392 L452,458 C468,510 460,535 438,535 C425,535 412,526 390,512 L335,472 C318,461 282,461 265,472 L210,512 C188,526 175,535 162,535 C140,535 132,510 148,458 L170,392 C178,370 172,350 155,338 L100,298 C75,280 60,268 55,255 C45,230 65,215 120,215 L185,215 C205,215 220,205 225,185 L245,120 C260,70 280,50 300,50 Z"/>
+    <path id="bar" d="M300,50 C320,50 340,70 355,120 L375,185 C380,205 395,215 415,215 L480,215 C535,215 555,230 545,255 C540,268 525,280 500,298 L445,338 C428,350 422,370 430,392 L452,458 C468,510 460,535 438,535 C425,535 412,526 390,512 L335,472 C318,461 282,461 265,472 L210,512 C188,526 175,535 162,535 C140,535 132,510 148,458 L170,392 C178,370 172,350 155,338 L100,298 C75,280 60,268 55,255 C45,230 65,215 120,215 L185,215 C205,215 220,205 225,185 L245,120 C260,70 280,50 300,50 Z"/>
+    <path id="barShimmer" d="M300,50 C320,50 340,70 355,120 L375,185 C380,205 395,215 415,215 L480,215 C535,215 555,230 545,255 C540,268 525,280 500,298 L445,338 C428,350 422,370 430,392 L452,458 C468,510 460,535 438,535 C425,535 412,526 390,512 L335,472 C318,461 282,461 265,472 L210,512 C188,526 175,535 162,535 C140,535 132,510 148,458 L170,392 C178,370 172,350 155,338 L100,298 C75,280 60,268 55,255 C45,230 65,215 120,215 L185,215 C205,215 220,205 225,185 L245,120 C260,70 280,50 300,50 Z"/>
+    <path class="inner-dash" d="M300,80 C317,80 334,97 347,141 L365,200 C370,218 382,226 400,226 L460,226 C508,226 525,239 516,261 C512,272 499,283 477,299 L426,336 C411,347 405,365 413,385 L433,446 C447,492 440,514 421,514 C409,514 398,506 378,493 L327,457 C312,447 288,447 273,457 L222,493 C202,506 191,514 179,514 C160,514 153,492 167,446 L187,385 C195,365 189,347 174,336 L123,299 C101,283 88,272 84,261 C75,239 92,226 140,226 L200,226 C218,226 230,218 235,200 L253,141 C266,97 283,80 300,80 Z"/>
+  </svg>
+
+  <div class="img_box">
+    <canvas id="canvasSrc" width="64" height="64"></canvas>
+  </div>
+
+  <!-- Flash ring -->
+  <div id="flashRing"></div>
+
+  <!-- Particle container -->
+  <div id="particleCont" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10;overflow:visible;"></div>
+</div>
+
+<div class="milestone-label">✦ STITCH-CAT MILESTONES ✦</div>
+<div class="goal_text" id="goalText">YOUR GOAL HERE</div>
+<div class="percent_value" id="percentVal">0 / 5</div>
+
+<div class="controls">
+  <button class="btn" onclick="step(-1)">− Giảm</button>
+  <button class="btn primary" onclick="step(1)">+ Thêm ✦</button>
+</div>
+
+<script>
+  let current = 0, total = 5;
+  let wasComplete = false;
+
+  const bar = document.getElementById('bar');
+  const shimmer = document.getElementById('barShimmer');
+  const pathLen = bar.getTotalLength();
+  bar.style.strokeDasharray = `0 ${pathLen}`;
+  shimmer.style.strokeDasharray = `0 ${pathLen}`;
+
+  /* ── Update ── */
+  function update() {
+    const pct  = Math.min(current / total, 1);
+    const fill = pct * pathLen;
+    bar.style.strokeDasharray = `${fill} ${pathLen}`;
+    shimmer.style.strokeDasharray = `${fill} ${pathLen}`;
+    document.getElementById('percentVal').textContent = `${current} / ${total}`;
+
+    if (pct >= 1 && !wasComplete) {
+      wasComplete = true;
+      // delay nhỏ để transition bar chạy xong
+      setTimeout(celebrate, 900);
+    }
+    if (pct < 1) wasComplete = false;
+  }
+
+  function step(d) {
+    current = Math.max(0, Math.min(total, current + d));
+    update();
+  }
+
+  /* ══════════════════════════════════════
+     CELEBRATE — gọi khi đạt 100%
+     Đây là hàm bạn copy vào project thật
+  ══════════════════════════════════════ */
+  function celebrate() {
+    flashRing();
+    spawnParticles();
+    spawnStars();
+  }
+
+  /* 1. Ring flash */
+  function flashRing() {
+    const ring = document.getElementById('flashRing');
+    ring.classList.remove('flash');
+    void ring.offsetWidth; // reflow để restart animation
+    ring.classList.add('flash');
+  }
+
+  /* 2. Dot particles bắn ra từ tâm */
+  function spawnParticles() {
+    const cont   = document.getElementById('particleCont');
+    const colors = ['#f0abfc','#a855f7','#818cf8','#e879f9','#fff','#fbbf24'];
+    const cx = 50, cy = 50; // % tâm
+
+    for (let i = 0; i < 28; i++) {
+      const el = document.createElement('div');
+      el.className = 'sp-particle';
+
+      const angle = (i / 28) * 360 + Math.random() * 13;
+      const dist  = 60 + Math.random() * 80;
+      const rad   = angle * Math.PI / 180;
+      const tx    = Math.cos(rad) * dist;
+      const ty    = Math.sin(rad) * dist;
+      const size  = 4 + Math.random() * 7;
+      const dur   = 0.6 + Math.random() * 0.6;
+
+      el.style.cssText = `
+        left: ${cx}%; top: ${cy}%;
+        width: ${size}px; height: ${size}px;
+        background: ${colors[i % colors.length]};
+        --tx: ${tx}px; --ty: ${ty}px;
+        --dur: ${dur}s;
+        box-shadow: 0 0 ${size}px ${colors[i % colors.length]};
+      `;
+      cont.appendChild(el);
+      setTimeout(() => el.remove(), dur * 1000 + 100);
+    }
+  }
+
+  /* 3. Star emoji bắn ra */
+  function spawnStars() {
+    const cont   = document.getElementById('particleCont');
+    const emojis = ['✦','✧','⭐','💫','✨','⭐'];
+
+    for (let i = 0; i < 10; i++) {
+      const el = document.createElement('div');
+      el.className = 'star-burst';
+      el.textContent = emojis[i % emojis.length];
+
+      const angle = Math.random() * 360;
+      const dist  = 50 + Math.random() * 100;
+      const rad   = angle * Math.PI / 180;
+      const tx    = Math.cos(rad) * dist;
+      const ty    = Math.sin(rad) * dist;
+      const dur   = 0.7 + Math.random() * 0.7;
+      const rot   = (Math.random() - 0.5) * 360 + 'deg';
+
+      el.style.cssText = `
+        left: 50%; top: 50%;
+        --tx: ${tx}px; --ty: ${ty}px;
+        --dur: ${dur}s;
+        --rot: ${rot};
+      `;
+      cont.appendChild(el);
+      setTimeout(() => el.remove(), dur * 1000 + 100);
+    }
+  }
+
+  /* ── Pixel cat ── */
+  (function drawCat() {
+    const cv  = document.getElementById('canvasSrc');
+    const ctx = cv.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    const P = (x,y,c) => { ctx.fillStyle=c; ctx.fillRect(x*4,y*4,4,4); };
+    const sk='#f5deb3',ol='#3d1f00',wh='#fff',ey='#1a0a00',pu='#9370db',dp='#5b21b6',bw='#ffb3d9',bt='#3d2060';
+    [[5,2,sk],[6,2,sk],[7,2,sk],[8,2,sk],[9,2,sk],[10,2,sk],[4,3,sk],[5,3,sk],[6,3,sk],[7,3,sk],[8,3,sk],[9,3,sk],[10,3,sk],[11,3,sk],[4,4,sk],[5,4,ol],[6,4,sk],[7,4,sk],[8,4,sk],[9,4,ol],[10,4,sk],[11,4,sk],[4,5,sk],[5,5,ey],[6,5,sk],[7,5,sk],[8,5,sk],[9,5,ey],[10,5,sk],[11,5,sk],[4,6,sk],[5,6,sk],[6,6,ol],[7,6,sk],[8,6,sk],[9,6,ol],[10,6,sk],[11,6,sk],[5,7,sk],[6,7,sk],[7,7,sk],[8,7,sk],[9,7,sk],[10,7,sk],[5,1,ol],[6,1,ol],[9,1,ol],[10,1,ol],[5,0,ol],[6,0,ol],[9,0,ol],[10,0,ol],[4,8,wh],[5,8,wh],[6,8,wh],[7,8,wh],[8,8,wh],[9,8,wh],[10,8,wh],[11,8,wh],[3,9,pu],[4,9,wh],[5,9,bw],[6,9,bw],[7,9,bw],[8,9,bw],[9,9,wh],[10,9,pu],[11,9,pu],[12,9,pu],[3,10,pu],[4,10,pu],[5,10,pu],[6,10,pu],[7,10,pu],[8,10,pu],[9,10,pu],[10,10,pu],[11,10,pu],[12,10,pu],[3,11,dp],[4,11,dp],[5,11,dp],[6,11,wh],[7,11,wh],[8,11,dp],[9,11,dp],[10,11,dp],[11,11,dp],[12,11,dp],[4,12,dp],[5,12,dp],[6,12,dp],[7,12,dp],[8,12,dp],[9,12,dp],[10,12,dp],[11,12,dp],[5,13,dp],[6,13,dp],[9,13,dp],[10,13,dp],[5,14,bt],[6,14,bt],[9,14,bt],[10,14,bt],[4,15,bt],[5,15,bt],[6,15,bt],[7,15,bt],[8,15,bt],[9,15,bt],[10,15,bt],[11,15,bt]].forEach(([x,y,c])=>P(x,y,c));
+  })();
+
+  /* ── Ambient sparkle system ── */
+  (function ambientSparkles() {
+    const cont = document.getElementById('particleCont');
+    function spawn() {
+      const el = document.createElement('div');
+      el.className = 'ambient-sparkle';
+      const angle = Math.random() * 360;
+      const radius = 30 + Math.random() * 55;
+      const rad = angle * Math.PI / 180;
+      const x = 50 + Math.cos(rad) * radius;
+      const y = 50 + Math.sin(rad) * radius;
+      const dur = 1.8 + Math.random() * 1.5;
+      const drift = -6 - Math.random() * 12;
+      const size = 4 + Math.random() * 5;
+      el.style.cssText = `left:${x}%;top:${y}%;width:${size}px;height:${size}px;--dur:${dur}s;--drift:${drift}px;`;
+      cont.appendChild(el);
+      setTimeout(() => el.remove(), dur * 1000 + 50);
+    }
+    setInterval(spawn, 400 + Math.random() * 200);
+    for (let i = 0; i < 5; i++) setTimeout(spawn, i * 300);
+  })();
+
+  update();
+</script>

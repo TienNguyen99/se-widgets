@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Carter+One&family=Cherry+Bomb+One&family=Chewy&family=Freckle+Face&family=Gluten:wght@100..900&family=Luckiest+Guy&family=Patua+One&family=Righteous&family=Rubik+Bubbles&family=Sigmar+One&display=swap');
+
+html { height: 100%; }
+
+body {
+  font-family: "{{fontName}}", sans-serif;
+  font-weight: 400;
+  background-color: transparent;
+  text-align: center;
+  margin: 0;
+}
+
+/* ── Container chính ── */
+#cont {
+  width: 600px;
+  height: 340px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+}
+
+/* ── Sprite ── */
+.img_box {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  flex-shrink: 0;
+  animation: charFloat 3s ease-in-out infinite;
+  z-index: 2;
+}
+
+#canvasSrc {
+  width: 220px;
+  height: 220px;
+}
+
+@keyframes charFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* ── 5 ngôi sao ── */
+#starsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  z-index: 2;
+}
+
+.star-cv {
+  display: block;
+}
+
+/* ── Text ── */
+.goal_text,
+.percent_value {
+  background-image: linear-gradient(to bottom, #f7e0c4, {{botColor}});
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: white;
+  text-align: center;
+  text-shadow: 0 0 9px {{botColor}};
+  animation: textGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes textGlow {
+  0%, 100% { text-shadow: 0 0 9px {{botColor}}; }
+  50%      { text-shadow: 0 0 22px {{botColor}}, 0 0 40px {{botColor}}; }
+}
+
+.goal_text    { font-size: 44px; margin-top: 0; }
+.percent_value { font-size: 38px; margin-top: -8px; }
+
+/* ── Ambient sparkle ── */
+.ambient-sparkle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 7;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, #fff 0%, #e8b4f8 40%, transparent 70%);
+  border-radius: 50%;
+  animation: ambientFloat var(--dur, 2.5s) ease-in-out forwards;
+}
+.ambient-sparkle::before,
+.ambient-sparkle::after {
+  content: '';
+  position: absolute;
+  background: rgba(255,255,255,0.8);
+  border-radius: 1px;
+}
+.ambient-sparkle::before { width: 2px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+.ambient-sparkle::after  { width: 100%; height: 2px; top: 50%; left: 0; transform: translateY(-50%); }
+
+@keyframes ambientFloat {
+  0%   { opacity: 0; transform: scale(0) rotate(0deg); }
+  15%  { opacity: 1; transform: scale(1.2) rotate(30deg); }
+  50%  { opacity: 0.9; transform: scale(1) rotate(90deg) translateY(var(--drift,-8px)); }
+  100% { opacity: 0; transform: scale(0) rotate(180deg) translateY(var(--drift,-8px)); }
+}
+
+/* ── Particle burst ── */
+.sp-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10;
+  animation: spBurst var(--dur, 0.8s) ease-out forwards;
+}
+@keyframes spBurst {
+  0%   { opacity: 1; transform: translate(0,0) scale(1); }
+  50%  { opacity: 0.8; transform: translate(calc(var(--tx)*.6), calc(var(--ty)*.6)) scale(0.7); }
+  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+}
+
+.star-burst {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 10px; height: 10px;
+  margin: -5px 0 0 -5px;
+  pointer-events: none;
+  z-index: 9;
+  animation: starFly var(--dur, 1s) ease-out forwards;
+  font-size: 16px;
+  line-height: 1;
+}
+@keyframes starFly {
+  0%   { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
+  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(var(--rot)); }
+}
+
+#particleCont {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+}
