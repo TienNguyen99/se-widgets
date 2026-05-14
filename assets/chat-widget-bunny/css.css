@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
+
+/* ===== RESET & BASE ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 20px;
+}
+
+/* ===== KHUNG TIN NHẮN / ALERT ===== */
+.container {
+    position: relative;
+    width: 400px;
+    min-height: 212px;
+    margin-top: 30px;
+    /* chừa chỗ cho dải tên đè lên */
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-bg, .chat-border, .bunny-sprite {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 212px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.chat-bg {
+    background: url('admin 400x212/bg.png') no-repeat center center;
+}
+
+.chat-border {
+    background: url('admin 400x212/border.png') no-repeat center center;
+    z-index: 1;
+}
+
+.bunny-sprite {
+    background: url('deco 400x212/bunny.png') no-repeat left center;
+    z-index: 2;
+    animation: bunny-play 0.8s steps(8) infinite;
+}
+
+@keyframes bunny-play {
+    100% { background-position: -3200px center; }
+}
+
+.message-container {
+    padding: 22px 25px 15px;
+}
+
+.alert-container {
+    min-height: 85px;
+    padding: 25px 25px 15px;
+}
+
+/* ===== DẢI TÊN (đè lên viền trên, căn giữa) ===== */
+.message-name,
+.alert-name {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 20px;
+    background-color: #c48ced;
+    border: 3px solid #3c2653;
+    border-radius: 20px;
+    color: white;
+    font-weight: 800;
+    font-size: 14px;
+    white-space: nowrap;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 2;
+}
+
+/* ===== NỘI DUNG TIN NHẮN / ALERT ===== */
+.message-text,
+.alert-text {
+    color: #3c2653;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.5em;
+}
+
+/* ===== ẢNH EMOTE ===== */
+.message-text img {
+    height: 1.6em;
+    vertical-align: middle;
+    margin: -4px 2px 0;
+}
+
+/* ===== HUY HIỆU GÓC (chuông & icon sự kiện) ===== */
+.bell-container,
+.icon-container {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    background-color: #3c2653;
+    border: 2px solid #dcb3fc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+}
+
+.bell-container {
+    right: -10px;
+    top: -10px;
+}
+
+.icon-container {
+    left: -10px;
+    top: -10px;
+}
+
+.bell,
+.icon {
+    width: 16px;
+    fill: white;
+}
+
+/* ===== TRANSITION TRƯỢT VÀO ===== */
+.transition {
+    transition: margin-bottom 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ===== ANIMATION CHUÔNG & ICON =====
+   👉 ĐỂ THAY BẰNG SPRITE SHEET:
+      1. Thêm class .bell-sprite / .icon-sprite vào phần tử tương ứng trong JS
+      2. Set background-image: url('spritesheet.png') tại đây
+      3. Dùng steps() để chạy từng frame, ví dụ:
+         animation: sprite-play 0.75s steps(12) forwards;
+         @keyframes sprite-play { to { background-position: -384px 0; } }
+         (384px = 32px mỗi frame × 12 frame)
+      4. Xóa 2 @keyframes bên dưới và 2 dòng animation của .bell path / .icon path
+*/
+@keyframes bell-animation {
+    0% {
+        scale: 0;
+        rotate: 0deg
+    }
+
+    16.7% {
+        rotate: -20deg
+    }
+
+    50% {
+        scale: 1;
+        rotate: 20deg
+    }
+
+    83.3% {
+        rotate: -20deg
+    }
+
+    100% {
+        scale: 1;
+        rotate: 0deg
+    }
+}
+
+@keyframes icon-animation {
+    0% {
+        scale: 0;
+        rotate: 0deg
+    }
+
+    16.7% {
+        scale: 0;
+        rotate: -20deg
+    }
+
+    50% {
+        scale: 1;
+        rotate: 20deg
+    }
+
+    83.3% {
+        rotate: -20deg
+    }
+
+    100% {
+        scale: 1;
+        rotate: 0deg
+    }
+}
+
+.bell path {
+    transform-origin: 50% 50%;
+    animation: bell-animation 0.75s 0.25s;
+}
+
+.icon path {
+    transform-origin: 50% 50%;
+    animation: icon-animation 0.75s 0.25s;
+}
