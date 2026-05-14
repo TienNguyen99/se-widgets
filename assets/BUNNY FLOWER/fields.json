@@ -1,0 +1,122 @@
+{
+  "testMessage": {
+    "type": "button",
+    "label": "Test Message"
+  },
+  "transparent": {
+    "type": "checkbox",
+    "label": "Transparent"
+  },
+  "allCaps": {
+    "type": "checkbox",
+    "label": "All Caps"
+  },
+  "hideMessageOverflow": {
+    "type": "checkbox",
+    "label": "Hide Message Overflow"
+  },
+  "cacheAllMessages": {
+    "type": "checkbox",
+    "label": "Cache All Messages"
+  },
+  "color1": {
+    "type": "colorpicker",
+    "label": "Color 1",
+    "group": "Colors"
+  },
+  "color1Show": {
+    "type": "checkbox",
+    "label": "Show Color 1",
+    "group": "Colors"
+  },
+  "color2": {
+    "type": "colorpicker",
+    "label": "Color 2",
+    "group": "Colors"
+  },
+  "color2Show": {
+    "type": "checkbox",
+    "label": "Show Color 2",
+    "group": "Colors"
+  },
+  "color3": {
+    "type": "colorpicker",
+    "label": "Color 3",
+    "group": "Colors"
+  },
+  "color3Show": {
+    "type": "checkbox",
+    "label": "Show Color 3",
+    "group": "Colors"
+  },
+  "color4": {
+    "type": "colorpicker",
+    "label": "Color 4",
+    "group": "Colors"
+  },
+  "color4Show": {
+    "type": "checkbox",
+    "label": "Show Color 4",
+    "group": "Colors"
+  },
+  "color5": {
+    "type": "colorpicker",
+    "label": "Color 5",
+    "group": "Colors"
+  },
+  "color5Show": {
+    "type": "checkbox",
+    "label": "Show Color 5",
+    "group": "Colors"
+  },
+  "color6": {
+    "type": "colorpicker",
+    "label": "Color 6",
+    "group": "Colors"
+  },
+  "color6Show": {
+    "type": "checkbox",
+    "label": "Show Color 6",
+    "group": "Colors"
+  },
+  "color7": {
+    "type": "colorpicker",
+    "label": "Color 7",
+    "group": "Colors"
+  },
+  "color7Show": {
+    "type": "checkbox",
+    "label": "Show Color 7",
+    "group": "Colors"
+  },
+  "color8": {
+    "type": "colorpicker",
+    "label": "Color 8",
+    "group": "Colors"
+  },
+  "color8Show": {
+    "type": "checkbox",
+    "label": "Show Color 8",
+    "group": "Colors"
+  },
+  "color9": {
+    "type": "colorpicker",
+    "label": "Color 9",
+    "group": "Colors"
+  },
+  "color9Show": {
+    "type": "checkbox",
+    "label": "Show Color 9",
+    "group": "Colors"
+  },
+  "color10": {
+    "type": "colorpicker",
+    "label": "Color 10",
+    "group": "Colors"
+  },
+  "color10Show": {
+    "type": "checkbox",
+    "label": "Show Color 10",
+    "group": "Colors"
+  }
+}
