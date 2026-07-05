@@ -1,0 +1,112 @@
+{
+  "animationSpeed": {
+    "type": "dropdown",
+    "label": "Animation Speed",
+    "value": "",
+    "options": {
+      "8": "Very fast",
+      "9": "Fast",
+      "10": "Default",
+      "11": "Slow",
+      "12": "Very slow"
+    }
+  },
+  "onoffText": {
+    "type": "checkbox",
+    "label": "Hide Alert Text"
+  },
+  "skin": {
+    "type": "dropdown",
+    "label": "Skin",
+    "value": "White",
+    "options": {
+      "White": "White",
+      "Blackandwhite": "Black and White",
+      "Mocha": "Mocha",
+      "Pink": "Pink"
+    }
+  },
+  "eye": {
+    "type": "dropdown",
+    "label": "Eyes",
+    "value": "",
+    "options": {
+      "none": "None",
+      "Catmask": "Catmask",
+      "Eyepatch": "Eyepatch",
+      "Glasses": "Glasses",
+      "Heartglasses": "Heartglasses",
+      "Monocle": "Monocle",
+      "Sunglasses": "Sunglasses"
+    }
+  },
+  "head1": {
+    "type": "dropdown",
+    "label": "Head 1",
+    "value": "",
+    "options": {
+      "none": "None",
+      "Cap": "Cap",
+      "Crown": "Crown",
+      "Flowers": "Flowers",
+      "Halo": "Halo",
+      "Piratehat": "Piratehat",
+      "Redbow": "Redbow",
+      "Seeding": "Seeding",
+      "Sombrerohat": "Sombrerohat"
+    }
+  },
+  "head2": {
+    "type": "dropdown",
+    "label": "Head 2 ",
+    "value": "",
+    "options": {
+      "none": "None",
+      "Antlers": "Antlers",
+      "Flowers": "Flowers",
+      "Halo": "Halo",
+      "Horns": "Horns"
+    }
+  },
+  "neck": {
+    "type": "dropdown",
+    "label": "Neck",
+    "value": "",
+    "options": {
+      "none": "None",
+      "Babybluescarf": "Babybluescarf",
+      "Bluescarf": "Bluescarf",
+      "Bow": "Bow",
+      "Heartbow": "Heartbow",
+      "Pinkscarf": "Pinkscarf",
+      "Purpleribbon": "Purpleribbon",
+      "Redbow": "Redbow",
+      "Starbow": "Starbow"
+    }
+  },
+  "nose": {
+    "type": "dropdown",
+    "label": "Nose",
+    "value": "",
+    "options": {
+      "none": "None",
+      "Bandage": "Bandage",
+      "Clownnose": "Clownnose",
+      "Moustacles": "Moustacles"
+    }
+  },
+  "wings": {
+    "type": "dropdown",
+    "label": "Wings",
+    "value": "",
+    "options": {
+      "none": "None",
+      "Angelwing": "Angelwing",
+      "Demonwing": "Demonwing"
+    }
+  },
+  "widgetDuration": {
+    "type": "hidden",
+    "value": "2"
+  }
+}

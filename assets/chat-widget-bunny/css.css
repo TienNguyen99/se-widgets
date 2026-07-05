@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap');
 
 /* ===== RESET & BASE ===== */
 * {
@@ -6,7 +6,7 @@
     padding: 0;
     box-sizing: border-box;
     overflow-wrap: break-word;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Baloo 2', cursive;
     font-size: 14px;
     flex-shrink: 0;
 }
@@ -22,13 +22,51 @@ body {
     position: relative;
     width: 400px;
     min-height: 212px;
-    margin-top: 30px;
-    /* chừa chỗ cho dải tên đè lên */
+    margin-top: 82px;
+    /* chừa chỗ cho dải tên đè lên & separator */
     margin-bottom: 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    isolation: isolate;
+    animation: float-container 3.6s ease-in-out infinite;
+    will-change: transform;
+}
+
+.container:nth-child(2n) {
+    animation-delay: -1.2s;
+}
+
+.container:nth-child(3n) {
+    animation-delay: -2.1s;
+}
+
+@keyframes float-container {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.container.has-separator::after {
+    content: '';
+    position: absolute;
+    top: -94px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 136px;
+    height: 136px;
+    background: url('https://tiennguyen99.github.io/se-widgets/assets/chat-widget-bunny/space/1.png') no-repeat left center;
+    animation: space-play 0.8s steps(4) infinite;
+    z-index: 3;
+}
+
+@keyframes space-play {
+    100% { background-position: -544px center; }
 }
 
 .chat-bg, .chat-border, .bunny-sprite {
@@ -36,22 +74,28 @@ body {
     top: 0;
     left: 0;
     width: 400px;
-    height: 212px;
     pointer-events: none;
-    z-index: -1;
 }
 
 .chat-bg {
-    background: url('admin 400x212/bg.png') no-repeat center center;
+    bottom: 0;
+    border-style: solid;
+    border-width: 92px 32px 42px;
+    border-image: url('https://tiennguyen99.github.io/se-widgets/assets/chat-widget-bunny/admin/bg.png') 92 32 42 fill stretch;
+    z-index: 0;
 }
 
 .chat-border {
-    background: url('admin 400x212/border.png') no-repeat center center;
+    bottom: 0;
+    border-style: solid;
+    border-width: 92px 32px 42px;
+    border-image: url('https://tiennguyen99.github.io/se-widgets/assets/chat-widget-bunny/admin/border.png') 92 32 42 fill stretch;
     z-index: 1;
 }
 
 .bunny-sprite {
-    background: url('deco 400x212/bunny.png') no-repeat left center;
+    height: 212px;
+    background: url('https://tiennguyen99.github.io/se-widgets/assets/chat-widget-bunny/deco/bunny.png') no-repeat left center;
     z-index: 2;
     animation: bunny-play 0.8s steps(8) infinite;
 }
@@ -61,42 +105,52 @@ body {
 }
 
 .message-container {
-    padding: 22px 25px 15px;
+    padding: 94px 42px 42px;
 }
 
 .alert-container {
-    min-height: 85px;
-    padding: 25px 25px 15px;
+    padding: 94px 42px 42px;
 }
 
 /* ===== DẢI TÊN (đè lên viền trên, căn giữa) ===== */
 .message-name,
 .alert-name {
     position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 2px 20px;
-    background-color: #c48ced;
-    border: 3px solid #3c2653;
-    border-radius: 20px;
+    top: 48px;
+    left: 42px;
+    width: 126px;
+    transform: none;
+    padding: 0 10px;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
     color: white;
     font-weight: 800;
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: center;
+    letter-spacing: 0.4px;
     white-space: nowrap;
-    max-width: 90%;
     overflow: hidden;
     text-overflow: ellipsis;
-    z-index: 2;
+    z-index: 4;
 }
 
 /* ===== NỘI DUNG TIN NHẮN / ALERT ===== */
 .message-text,
 .alert-text {
+    position: relative;
+    z-index: 3;
     color: #3c2653;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 800;
     text-align: center;
-    line-height: 1.5em;
+    line-height: 1.35em;
+    width: 100%;
+}
+
+.alert-container .icon-container {
+    display: none;
 }
 
 /* ===== ẢNH EMOTE ===== */

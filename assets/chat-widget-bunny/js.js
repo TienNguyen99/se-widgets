@@ -1,10 +1,4 @@
-const icons = {
-    follower:   '<path d="M32.294,5.434c-3.922,-3.239 -9.764,-2.656 -13.36,0.941l-0.934,0.933l-0.933,-0.933c-3.597,-3.597 -9.439,-4.18 -13.361,-0.941c-4.499,3.716 -4.736,10.391 -0.709,14.417l1.23,1.23l10.078,10.079c2.041,2.04 5.349,2.04 7.39,0l10.078,-10.079l1.23,-1.23c4.027,-4.026 3.79,-10.701 -0.709,-14.417" style="fill-rule:nonzero;"/>',
-    cheer:      '<path d="M14.27,4.598l-7.894,13.884c-0.917,1.614 -0.693,3.635 0.556,5.008l7.894,8.677c1.702,1.872 4.646,1.872 6.348,0l7.894,-8.677c1.249,-1.373 1.473,-3.394 0.556,-5.008l-7.894,-13.884c-1.645,-2.893 -5.815,-2.893 -7.46,0" style="fill-rule:nonzero;"/>',
-    tip:        '<path d="M26.899,22.449c0,3.679 -2.994,6.673 -6.674,6.673l0,2.225c0,1.23 -0.994,2.224 -2.224,2.224c-1.23,-0 -2.224,-0.994 -2.224,-2.224l0,-2.225l-0.597,-0c-2.373,-0 -4.589,-1.276 -5.779,-3.334c-0.616,-1.066 -0.251,-2.425 0.81,-3.039c1.065,-0.62 2.427,-0.251 3.038,0.81c0.399,0.69 1.137,1.114 1.929,1.114l5.045,-0c1.228,-0 2.225,-0.996 2.225,-2.224c-0,-0.841 -0.603,-1.553 -1.433,-1.691l-6.764,-1.127c-2.986,-0.497 -5.15,-3.055 -5.15,-6.08c-0,-3.679 2.994,-6.673 6.673,-6.673l-0,-2.225c-0,-1.228 0.995,-2.224 2.225,-2.224c1.23,-0 2.224,0.996 2.224,2.224l-0,2.225l0.596,-0c2.374,-0 4.59,1.279 5.78,3.336c0.616,1.064 0.251,2.423 -0.81,3.039c-1.068,0.616 -2.427,0.251 -3.039,-0.812c-0.398,-0.687 -1.136,-1.112 -1.928,-1.112l-5.045,-0c-1.228,-0 -2.225,0.999 -2.225,2.224c-0,0.841 0.603,1.553 1.433,1.691l6.764,1.128c2.986,0.496 5.15,3.054 5.15,6.079l-0,-0.002Z" style="fill-rule:nonzero;"/>',
-    subscriber: '<path d="M21.376,4.733l2.016,4.085c0.548,1.111 1.608,1.881 2.835,2.059l4.508,0.655c3.087,0.449 4.32,4.244 2.086,6.422l-3.262,3.18c-0.887,0.864 -1.292,2.111 -1.083,3.332l0.77,4.49c0.528,3.075 -2.7,5.42 -5.462,3.968l-4.032,-2.12c-1.097,-0.576 -2.407,-0.576 -3.504,0l-4.032,2.12c-2.762,1.452 -5.99,-0.893 -5.462,-3.968l0.77,-4.49c0.209,-1.221 -0.196,-2.468 -1.083,-3.332l-3.262,-3.18c-2.234,-2.178 -1.001,-5.973 2.087,-6.422l4.508,-0.655c1.226,-0.178 2.286,-0.948 2.834,-2.059l2.016,-4.085c1.381,-2.798 5.371,-2.798 6.752,0" style="fill-rule:nonzero;"/>',
-    host:       '<path d="M24.648,17.724c1.803,-1.931 2.775,-4.649 2.343,-7.583c-0.587,-3.987 -3.899,-7.183 -7.901,-7.649c-5.509,-0.64 -10.182,3.649 -10.182,9.029c-0,2.419 0.945,4.617 2.485,6.245c0.77,0.814 0.376,2.128 -0.653,2.57c-4.08,1.752 -6.934,5.808 -6.913,10.535c0.007,1.485 1.262,2.701 2.746,2.701l22.855,-0c1.484,-0 2.739,-1.216 2.746,-2.701c0.021,-4.73 -2.836,-8.788 -6.921,-10.539c-1.053,-0.451 -1.387,-1.77 -0.605,-2.608" style="fill-rule:nonzero;"/>'
-};
+
 
 let fieldData = {};
 let shownColors = [];
@@ -45,6 +39,7 @@ window.addEventListener('onEventReceived', obj => {
     switch (event) {
         case 'message':
             addMessage(data.data);
+            updateSeparators();
             animateContainers();
             if (!fieldData.cacheAllMessages) clearMessageLog();
             break;
@@ -57,6 +52,7 @@ window.addEventListener('onEventReceived', obj => {
         case 'cheer-latest':    case 'tip-latest':
         case 'raid-latest':     case 'host-latest':
             if (addAlert(data, event.split('-')[0])) {
+                updateSeparators();
                 animateContainers();
                 if (!fieldData.cacheAllMessages) clearMessageLog();
             }
@@ -102,12 +98,18 @@ const handleEmotes = (text, emotes) => {
 
 const deleteMessage = msgId => {
     const el = $(`.message-container[data-msgId="${msgId}"]`);
-    if (el.length) { el.remove(); fixSpacing(); }
+    if (el.length) { el.remove(); updateSeparators(); fixSpacing(); }
 };
 
 const deleteMessages = userId => {
     const els = $(`.message-container[data-userId="${userId}"]`);
-    if (els.length) { els.each((_, el) => el.remove()); fixSpacing(); }
+    if (els.length) { els.each((_, el) => el.remove()); updateSeparators(); fixSpacing(); }
+};
+
+const updateSeparators = () => {
+    const containers = $('.container');
+    containers.removeClass('has-separator');
+    containers.slice(0, -1).addClass('has-separator');
 };
 
 // Sửa lại margin sau khi xóa tin nhắn
@@ -120,6 +122,7 @@ const fixSpacing = () => {
 const clearMessageLog = () => {
     const max = 19 + shownColors.length;
     while (document.body.children.length > max) document.body.children[max].remove();
+    updateSeparators();
 };
 
 // Trượt tin nhắn mới vào từ dưới
@@ -172,9 +175,7 @@ const addAlert = (data, event) => {
             <div class="chat-bg"></div>
             <div class="chat-border"></div>
             <div class="bunny-sprite"></div>
-            <div class="icon-container">
-                <svg class="icon" viewBox="0 0 36 36">${icons[event]}</svg>
-            </div>
+            <div class="icon-container"></div>
             ${fieldData.transparent ? '' : bellHTML}
             <p class="alert-name">${name.toUpperCase()}</p>
             <p class="alert-text">${fieldData.allCaps ? action.toUpperCase() : action}</p>

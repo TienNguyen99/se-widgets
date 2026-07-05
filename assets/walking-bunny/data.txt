@@ -1,0 +1,13 @@
+{
+  "eye": "none",
+  "head": "Hat",
+  "neck": "none",
+  "animationSpeed": "9",
+  "widgetDuration": 2,
+  "skin": "White",
+  "nose": "none",
+  "wings": "none",
+  "head1": "none",
+  "head2": "none",
+  "onoffText": true
+}

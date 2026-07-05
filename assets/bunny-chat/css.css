@@ -22,13 +22,30 @@ body {
     position: relative;
     width: 400px;
     min-height: 212px;
-    margin-top: 30px;
-    /* chừa chỗ cho dải tên đè lên */
+    margin-top: 65px;
+    /* chừa chỗ cho dải tên đè lên & separator */
     margin-bottom: 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.container:not(:first-child)::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 136px;
+    height: 136px;
+    background: url('https://tiennguyen99.github.io/se-widgets/assets/chat-widget-bunny/space/1.png') no-repeat left center;
+    animation: space-play 0.8s steps(4) infinite;
+    z-index: 3;
+}
+
+@keyframes space-play {
+    100% { background-position: -544px center; }
 }
 
 .chat-bg, .chat-border, .bunny-sprite {
@@ -42,16 +59,16 @@ body {
 }
 
 .chat-bg {
-    background: url('admin 400x212/bg.png') no-repeat center center;
+    background: url('https://tiennguyen99.github.io/se-widgets/assets/chat-widget-bunny/admin/bg.png') no-repeat center center;
 }
 
 .chat-border {
-    background: url('admin 400x212/border.png') no-repeat center center;
+    background: url('https://tiennguyen99.github.io/se-widgets/assets/chat-widget-bunny/admin/border.png') no-repeat center center;
     z-index: 1;
 }
 
 .bunny-sprite {
-    background: url('deco 400x212/bunny.png') no-repeat left center;
+    background: url('https://tiennguyen99.github.io/se-widgets/assets/chat-widget-bunny/deco/bunny.png') no-repeat left center;
     z-index: 2;
     animation: bunny-play 0.8s steps(8) infinite;
 }
@@ -65,7 +82,6 @@ body {
 }
 
 .alert-container {
-    min-height: 85px;
     padding: 25px 25px 15px;
 }
 
