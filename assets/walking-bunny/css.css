@@ -32,15 +32,17 @@ body {
 }
 #text_box {
   justify-content: center;
-  align-items: center;    
-  text-align: center;      
-    position: absolute;
-    width: 100%;
-
-    
-    opacity: 0;
-    z-index: 3;
-    overflow: hidden;
+  align-items: center;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  bottom: 64px;
+  width: 400px;
+  height: 200px;
+  opacity: 0;
+  z-index: 3;
+  overflow: hidden;
+  will-change: transform;
 }
 #text_box .event {
   color: #E0C097; 
@@ -81,13 +83,15 @@ body {
   width: 400px;
   height: 200px;
   position: absolute;
-  right: 11px;
+  left: 0;
+  bottom: 64px;
   background-image: url('https://tiennguyen99.github.io/se-widgets/assets/custom-bunny/Panel/Panel.png');
   background-repeat: no-repeat;
-  background-size: 7866px 200px; 
-  animation: frameAnim 3s steps(19) 1; /* Chạy 1 lần */
-  animation-fill-mode: forwards; /* Giữ trạng thái cuối */
+  background-size: 7866px 200px;
+  animation: frameAnim 3s steps(19) 1;
+  animation-fill-mode: forwards;
   z-index: 2;
+  will-change: transform;
 }
 
 @keyframes frameAnim {
@@ -100,3 +104,38 @@ body {
 }
 
 
+
+.guest_bunny {
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 4;
+  pointer-events: none;
+  will-change: transform;
+}
+.guest_bunny canvas {
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: block;
+  image-rendering: pixelated;
+}
+.guest_name {
+  width: 140px;
+  position: absolute;
+  left: 50%;
+  bottom: 62px;
+  transform: translateX(-50%);
+  color: #4B2E20;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  text-shadow: 0 1px 0 #fff4f7, 1px 0 0 #fff4f7, -1px 0 0 #fff4f7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
